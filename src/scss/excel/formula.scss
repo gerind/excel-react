@@ -20,8 +20,10 @@
 
   & .formula {
     width: 100%;
+    max-width: 100%;
     padding: 6px;
     display: flex;
     align-items: center;
+    overflow-x: hidden;
   }
 }
