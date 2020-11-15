@@ -1,0 +1,38 @@
+
+.excel__table {
+  position: absolute;
+  top: $header-height + $toolbar-height + $formula-height;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
+  overflow-x: auto;
+  & .row {
+    display: flex;
+    justify-content: flex-start;
+    & .info, & .column, & .cell {
+      width: $cell-width;
+      height: $cell-height;
+      padding: 2px;
+      border-right: 1px solid grey;
+      border-bottom: 1px solid grey;
+      flex-shrink: 0;
+    }
+    & .info, & .column {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    & .info {
+      width: $info-width;
+      background: #eee;
+
+    }
+    & .column {
+      background: #eee;
+    }
+    & .cell {
+      font-size: 15px;
+    }
+  }
+}

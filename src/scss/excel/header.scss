@@ -1,0 +1,31 @@
+
+.excel__header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: $header-height;
+  border-bottom: 1px solid grey;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  & .title input {
+    margin: 16px;
+    border: 1px solid grey;
+    outline: none;
+    border-radius: 2px;
+    padding: 3px;
+    &:focus {
+      border: 2px solid green;
+    }
+  }
+
+  & .control {
+    display: flex;
+    align-items: center;
+    & button {
+      @include button;
+    }
+  }
+}

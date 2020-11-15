@@ -1,0 +1,20 @@
+
+@mixin button($margin: 0 16px 0 0) {
+  width: $button-size;
+  height: $button-size;
+  background: #fff;
+  border: none;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: $margin;
+  &:hover {
+    background: #eee;
+    cursor: pointer;
+  }
+  &:active, &.active {
+    color: green;
+    cursor: pointer;
+  }
+}

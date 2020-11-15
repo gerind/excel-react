@@ -1,11 +1,14 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
 @import "~normalize.css";
+@import "./variables";
+@import "./mixins";
+@import "./excel/excel";
 
 * {
   margin: 0;
   padding: 0;
-  cursor: default;
+  box-sizing: border-box;
   outline: none;
   font-family: 'Roboto', sans-serif;
 }
