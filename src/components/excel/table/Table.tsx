@@ -1,31 +1,24 @@
 import React from 'react'
+import FirstRow from './FirstRow'
+import Row from './Row'
 
-const Table: React.FC = () => {
+interface TableProps {
+  rowCount: number
+  colCount: number
+}
+
+const Table: React.FC<TableProps> = ({rowCount, colCount}) => {
 
   return (
     <div className="excel__table">
-      <div className="row">
-        <div className="info">
-
-        </div>
-        <div className="column">
-          A
-        </div>
-        <div className="column">
-          B
-        </div>
-      </div>
-      <div className="row">
-        <div className="info">
-          1
-        </div>
-        <div className="cell">
-          some text A1
-        </div>
-        <div className="cell">
-          some text B1
-        </div>
-      </div>
+      <FirstRow colCount={colCount} />
+      {
+        new Array(rowCount)
+            .fill(null)
+            .map((_, rowIndex) => (
+              <Row rowIndex={rowIndex} colCount={colCount} key={rowIndex} />
+            ))
+      }
     </div>
   )
 }
