@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { getColumnName } from '../../../core/utils'
 import Resizer from './resize/Resizer'
 
@@ -26,4 +26,4 @@ const FirstRow: React.FC<FirstRowProps> = ({colCount, columnResize}) => {
   )
 }
 
-export default FirstRow
+export default memo(FirstRow)

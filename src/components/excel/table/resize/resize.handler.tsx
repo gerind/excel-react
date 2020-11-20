@@ -8,14 +8,14 @@ export function mouseDownHandler(type: 'row' | 'column', index: number, setStyle
     const coordName = isColumn ? 'clientX' : 'clientY'
     setStyles({[isColumn ? 'bottom' : 'right']: `-${windowSize}px`, opacity: 1})
     const prevCoord = downEvent[coordName]
-    const mouseMoveHandler = debounce((moveEvent: MouseEvent) => {
+    const mouseMoveHandler = ((moveEvent: MouseEvent) => {
       const newCoord = moveEvent[coordName]
       setStyles({
         transform: isColumn
             ? `translate(${newCoord - prevCoord}px, 0)`
             : `translate(0, ${newCoord - prevCoord}px)`
       })
-    }, 33)
+    })
     const mouseUpHandler = (upEvent: MouseEvent) => {
       const newCoord = upEvent[coordName]
       setStyles({

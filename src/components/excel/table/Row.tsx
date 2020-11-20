@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { memo, useMemo, useRef } from 'react'
 import Resizer from './resize/Resizer'
 
 interface RowProps {
@@ -10,21 +10,23 @@ interface RowProps {
 
 const Row: React.FC<RowProps> = ({rowIndex, colCount, columnResize, rowResize}) => {
 
+  const cellArray = useMemo(() =>
+    new Array(colCount)
+        .fill(null)
+        .map((_, colIndex) => (
+          <div className="cell" key={colIndex} style={{width: columnResize[colIndex] + 'px'}} >
+            {/*Here must be text*/}
+          </div>
+        ))
+  , [columnResize])
+
   return (
     <div className="row" style={{height: rowResize + 'px'}}>
       <div className="info">
         {rowIndex + 1}
         <Resizer type={'row'} index={rowIndex} />
       </div>
-      {
-        new Array(colCount)
-            .fill(null)
-            .map((_, colIndex) => (
-              <div className="cell" key={colIndex} style={{width: columnResize[colIndex] + 'px'}} >
-                {/*Here must be text*/}
-              </div>
-            ))
-      }
+      {cellArray}
     </div>
   )
 }

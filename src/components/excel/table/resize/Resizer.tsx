@@ -9,7 +9,7 @@ interface ResizerProps {
 
 const Resizer: React.FC<ResizerProps> = ({type, index}) => {
   const className = type === 'row' ? 'row-resizer' : 'col-resizer'
-  
+
   const resizerRef = useRef(null)
 
   const setStyles = (styles: {[key: string]: string | number}) => {
