@@ -12,7 +12,6 @@ interface TableProps {
 const Table: React.FC<TableProps> = ({rowCount, colCount}) => {
 
   const columnResize = useSelector((state: StateType) => state.resize.column)
-  const rowResize = useSelector((state: StateType) => state.resize.row)
 
   return (
     <div className="excel__table">
@@ -21,7 +20,7 @@ const Table: React.FC<TableProps> = ({rowCount, colCount}) => {
         new Array(rowCount)
             .fill(null)
             .map((_, rowIndex) => (
-              <Row rowIndex={rowIndex} colCount={colCount} key={rowIndex} columnResize={columnResize} rowResize={rowResize} />
+              <Row rowIndex={rowIndex} colCount={colCount} key={rowIndex} columnResize={columnResize} />
             ))
       }
     </div>
