@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { useSelector } from 'react-redux'
 import { StateType } from '../../../core/redux/stateInterface'
 import Resizer from './resize/Resizer'
@@ -7,11 +7,10 @@ interface RowProps {
   rowIndex: number
   colCount: number
   columnResize: {[key: number]: number}
+  rowResize: number
 }
 
-const Row: React.FC<RowProps> = ({rowIndex, colCount, columnResize}) => {
-
-  const rowResize = useSelector((state: StateType) => state.resize.row[rowIndex])
+const Row: React.FC<RowProps> = ({rowIndex, colCount, columnResize, rowResize}) => {
 
   return (
     <div className="row" style={{height: rowResize + 'px'}}>
@@ -32,4 +31,4 @@ const Row: React.FC<RowProps> = ({rowIndex, colCount, columnResize}) => {
   )
 }
 
-export default Row
+export default memo(Row)
