@@ -5,13 +5,14 @@ interface RowProps {
   rowIndex: number
   colCount: number
   columnResize: {[key: number]: number}
+  rowResize: {[key: number]: number}
 }
 
-const Row: React.FC<RowProps> = ({rowIndex, colCount, columnResize}) => {
+const Row: React.FC<RowProps> = ({rowIndex, colCount, columnResize, rowResize}) => {
 
 
   return (
-    <div className="row">
+    <div className="row" style={{height: rowResize[rowIndex] + 'px'}}>
       <div className="info">
         {rowIndex + 1}
         <Resizer type={'row'} index={rowIndex} />
