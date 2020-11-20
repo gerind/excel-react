@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { memo, useMemo, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { mouseDownHandler } from './resize.handler'
 
@@ -9,19 +9,24 @@ interface ResizerProps {
 
 const Resizer: React.FC<ResizerProps> = ({type, index}) => {
   const className = type === 'row' ? 'row-resizer' : 'col-resizer'
-  const [styles, setStyles] = useState({})
+  
+  const resizerRef = useRef(null)
+
+  const setStyles = (styles: {[key: string]: string | number}) => {
+    Object.keys(styles).forEach(key => resizerRef.current.style[key] = styles[key])
+  }
+
   const dispatch = useDispatch()
 
-  const handler = useMemo(() =>
-    mouseDownHandler(type, index, setStyles, dispatch), [type, index])
+  const handler = mouseDownHandler(type, index, setStyles, dispatch)
 
   return (
     <div
+      ref={resizerRef}
       className={className}
-      style={styles}
       onMouseDown={handler}
     />
   )
 }
 
-export default Resizer
+export default memo(Resizer)

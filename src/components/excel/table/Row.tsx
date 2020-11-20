@@ -1,6 +1,4 @@
 import React, { memo } from 'react'
-import { useSelector } from 'react-redux'
-import { StateType } from '../../../core/redux/stateInterface'
 import Resizer from './resize/Resizer'
 
 interface RowProps {

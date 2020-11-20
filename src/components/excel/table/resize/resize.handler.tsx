@@ -10,16 +10,19 @@ export function mouseDownHandler(type: 'row' | 'column', index: number, setStyle
     const prevCoord = downEvent[coordName]
     const mouseMoveHandler = debounce((moveEvent: MouseEvent) => {
       const newCoord = moveEvent[coordName]
-      setStyles(styles => ({
-        ...styles,
+      setStyles({
         transform: isColumn
             ? `translate(${newCoord - prevCoord}px, 0)`
             : `translate(0, ${newCoord - prevCoord}px)`
-      }))
-    }, 42)
+      })
+    }, 33)
     const mouseUpHandler = (upEvent: MouseEvent) => {
       const newCoord = upEvent[coordName]
-      setStyles({})
+      setStyles({
+        [isColumn ? 'bottom' : 'right']: '',
+        opacity: '',
+        transform: ''
+      })
 
       dispatch(resizeTable({
         side: type,
