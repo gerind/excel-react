@@ -12,8 +12,8 @@ const Excel: React.FC = () => {
       <Toolbar />
       <Formula />
       <Table
-        rowCount={70}
-        colCount={70}
+        rowCount={53}
+        colCount={53}
       />
     </div>
   )

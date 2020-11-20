@@ -10,30 +10,51 @@
   & .row {
     display: flex;
     justify-content: flex-start;
-    & .info, & .column, & .cell {
-      width: $cell-width;
-      height: $cell-height;
-      padding: 3px;
-      border-right: 1px solid grey;
-      border-bottom: 1px solid grey;
-      flex-shrink: 0;
+  }
+  & .info, & .column, & .cell {
+    width: $cell-width;
+    height: $cell-height;
+    padding: 3px;
+    border-right: 1px solid grey;
+    border-bottom: 1px solid grey;
+    flex-shrink: 0;
+    position: relative;
+  }
+  & .info, & .column {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  & .info {
+    width: $info-width;
+    background: #eee;
+  }
+  & .column {
+    background: #eee;
+  }
+  & .cell {
+    font-size: 15px;
+    white-space: nowrap;
+  }
+  & .col-resizer, & .row-resizer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background: rgb(0, 153, 255);
+    opacity: 0;
+    z-index: 10;
+    &:hover {
+      opacity: 1;
     }
-    & .info, & .column {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    & .info {
-      width: $info-width;
-      background: #eee;
-
-    }
-    & .column {
-      background: #eee;
-    }
-    & .cell {
-      font-size: 15px;
-      white-space: nowrap;
-    }
+  }
+  & .col-resizer {
+    top: 0;
+    width: 3px;
+    cursor: col-resize;
+  }
+  & .row-resizer {
+    left: 0;
+    height: 3px;
+    cursor: row-resize;
   }
 }

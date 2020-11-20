@@ -4,3 +4,9 @@ export const CODES: {[key: string]: number} = {
   Z: 90,
   SIZE: 26
 }
+
+export const rowHeight = 26
+export const columnWidth = 120
+
+export const rowMinHeight = 20
+export const columnMinWidth = 40

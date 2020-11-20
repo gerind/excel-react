@@ -20,3 +20,25 @@ export function getColumnName(colIndex: number): string {
         .map(index => CODES.A + index)
   )
 }
+
+export function debounce(fn: Function, ms: number) {
+  let canBeCalled: boolean = true
+  return function(...args: any[]) {
+    if (canBeCalled) {
+      fn(...args)
+      canBeCalled = false
+      setTimeout(() => {
+        canBeCalled = true
+      }, ms)
+    }
+  }
+}
+
+export function addEventListeners(element: EventTarget, listeners: {[key: string]: (event?: Event) => any}) {
+  Object.entries(listeners).forEach(entry => element.addEventListener(...entry))
+}
+
+export function removeEventListeners(element: EventTarget, listeners: {[key: string]: (event?: Event) => any}) {
+  Object.entries(listeners).forEach(entry => element.removeEventListener(...entry))
+}
+

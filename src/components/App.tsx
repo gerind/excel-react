@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import Excel from './excel/Excel'
-import { preventDefault } from './../core/utils'
+import { preventDefault } from '../core/utils'
 
 const App: React.FC = () => {
 
