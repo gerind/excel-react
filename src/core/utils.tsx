@@ -48,3 +48,4 @@ export function stateContainer(obj: {[key: string]: any}, ...props: (string | nu
     return acc[prop]
   }, obj)
 }
+

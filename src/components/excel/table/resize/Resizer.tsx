@@ -1,4 +1,4 @@
-import React, { memo, useMemo, useRef, useState } from 'react'
+import React, { memo, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import { mouseDownHandler } from './resize.handler'
 

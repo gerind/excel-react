@@ -4,9 +4,10 @@ import Resizer from './resize/Resizer'
 
 interface FirstRowProps {
   colCount: number
+  columnResize: {[key: number]: number}
 }
 
-const FirstRow: React.FC<FirstRowProps> = ({colCount}) => {
+const FirstRow: React.FC<FirstRowProps> = ({colCount, columnResize}) => {
 
   return (
     <div className="row">
@@ -15,9 +16,12 @@ const FirstRow: React.FC<FirstRowProps> = ({colCount}) => {
         new Array(colCount)
             .fill(null)
             .map((_, colIndex) => (
-              <div className="column" key={colIndex} >
+              <div className="column" key={colIndex} style={{width: columnResize[colIndex] + 'px'}} >
                 {getColumnName(colIndex)}
-                <Resizer type={'column'} index={colIndex} />
+                <Resizer
+                  type={'column'}
+                  index={colIndex}
+                />
               </div>
             ))
       }
