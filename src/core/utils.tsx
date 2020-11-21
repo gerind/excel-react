@@ -42,3 +42,9 @@ export function removeEventListeners(element: EventTarget, listeners: {[key: str
   Object.entries(listeners).forEach(entry => element.removeEventListener(...entry))
 }
 
+export function stateContainer(obj: {[key: string]: any}, ...props: (string | number)[] ) {
+  return props.reduce((acc, prop) => {
+    acc[prop] = {...acc[prop]}
+    return acc[prop]
+  }, obj)
+}
