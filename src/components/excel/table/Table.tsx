@@ -23,7 +23,7 @@ const Table: React.FC<TableProps> = ({rowCount, colCount}) => {
 
   const changeSelected = useCallback((row, column) => {
     const [prevRow, prevColumn] = cellsRef.current.cell
-    if (row !== prevRow || column !== prevColumn) {
+    if ((row !== prevRow || column !== prevColumn) && row < rowCount && column < colCount) {
       cellsRef.current[prevRow][prevColumn].unselect()
       cellsRef.current.cell = [row, column]
       cellsRef.current[row][column].select()
