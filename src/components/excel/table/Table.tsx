@@ -10,7 +10,6 @@ interface TableProps {
 }
 
 const Table: React.FC<TableProps> = ({rowCount, colCount}) => {
-  console.log('Table')
 
   const rowResize = useSelector((state: StateType) => state.resize.row)
   const columnResize = useSelector((state: StateType) => state.resize.column)
@@ -31,11 +30,13 @@ const Table: React.FC<TableProps> = ({rowCount, colCount}) => {
     }
   }, [])
 
+  const contextRef = useRef<any>({
+    cellsRef: cellsRef.current,
+    changeSelected
+  })
+
   return (
-    <TableContext.Provider value={{
-      cellsRef: cellsRef.current,
-      changeSelected
-    }}>
+    <TableContext.Provider value={contextRef.current}>
       <div className="excel__table">
         <FirstRow
           colCount={colCount}

@@ -14,10 +14,10 @@ interface CellProps {
 const Cell: React.FC<CellProps> = ({rowIndex, colIndex, width}) => {
 
   const table = useContext(TableContext)
-  console.log('Cell')
   const [selected, setSelected] = useState('')
 
   useEffect(() => {
+
     table.cellsRef[rowIndex] = table.cellsRef[rowIndex] ?? {}
     table.cellsRef[rowIndex][colIndex] = table.cellsRef[rowIndex][colIndex] ?? {}
     table.cellsRef[rowIndex][colIndex].select = () => setSelected('selected')
