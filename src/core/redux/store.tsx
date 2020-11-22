@@ -4,7 +4,6 @@ import reducer from './reducer'
 const store = createStore(reducer, null)
 
 //DEBUG
-declare var window: any
-window.store = store
+window['store'] = store
 
 export default store

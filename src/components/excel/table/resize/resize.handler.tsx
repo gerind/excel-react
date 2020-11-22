@@ -1,7 +1,7 @@
 import { resizeTable } from '../../../../core/redux/actions'
 import { addEventListeners, debounce, preventDefault, removeEventListeners } from '../../../../core/utils'
 
-export function mouseDownHandler(type: 'row' | 'column', index: number, setStyles: Function, dispatch: Function) {
+export function mouseDownHandlerResize(type: 'row' | 'column', index: number, setStyles: Function, dispatch: Function) {
   return (downEvent: React.MouseEvent) => {
     const isColumn = type === 'column'
     const windowSize = window[isColumn ? 'innerHeight' : 'innerWidth']

@@ -21,7 +21,7 @@ export function getColumnName(colIndex: number): string {
   )
 }
 
-export function debounce(fn: Function, ms: number) {
+export function debounce(fn: Function, ms: number): Function {
   let canBeCalled: boolean = true
   return function(...args: any[]) {
     if (canBeCalled) {

@@ -1,6 +1,6 @@
 import React, { memo, useRef } from 'react'
 import { useDispatch } from 'react-redux'
-import { mouseDownHandler } from './resize.handler'
+import { mouseDownHandlerResize } from './resize.handler'
 
 interface ResizerProps {
   type: 'row' | 'column'
@@ -18,7 +18,7 @@ const Resizer: React.FC<ResizerProps> = ({type, index}) => {
 
   const dispatch = useDispatch()
 
-  const handler = mouseDownHandler(type, index, setStyles, dispatch)
+  const handler = mouseDownHandlerResize(type, index, setStyles, dispatch)
 
   return (
     <div

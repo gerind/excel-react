@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { StateType } from '../../../core/redux/stateInterface'
 import FirstRow from './FirstRow'
@@ -13,28 +13,44 @@ const Table: React.FC<TableProps> = ({rowCount, colCount}) => {
 
   const rowResize = useSelector((state: StateType) => state.resize.row)
   const columnResize = useSelector((state: StateType) => state.resize.column)
+  
+  const [selectState, setSelectState] = useState({row: 0, column: 0})
+
+  const changeSelected = useCallback((rowIndex, columnIndex) => {
+    if (rowIndex !== selectState.row || columnIndex !== selectState.column) {
+      setSelectState({row: rowIndex, column: columnIndex})
+    }
+  }, [selectState])
 
   return (
-    <div className="excel__table">
-      <FirstRow
-        colCount={colCount}
-        columnResize={columnResize}
-      />
-      {
-        new Array(rowCount)
-            .fill(null)
-            .map((_, rowIndex) => (
-              <Row
-                rowIndex={rowIndex}
-                colCount={colCount}
-                key={rowIndex}
-                rowResize={rowResize[rowIndex]}
-                columnResize={columnResize}
-              />
-            ))
-      }
-    </div>
+    <TableContext.Provider value={{
+      rowSelected: selectState.row,
+      columnSelected: selectState.column,
+      changeSelected
+    }}>
+      <div className="excel__table">
+        <FirstRow
+          colCount={colCount}
+          columnResize={columnResize}
+        />
+        {
+          new Array(rowCount)
+              .fill(null)
+              .map((_, rowIndex) => (
+                <Row
+                  rowIndex={rowIndex}
+                  colCount={colCount}
+                  key={rowIndex}
+                  rowResize={rowResize[rowIndex]}
+                  columnResize={columnResize}
+                />
+              ))
+        }
+      </div>
+    </TableContext.Provider>
   )
 }
+
+export const TableContext = React.createContext(null)
 
 export default Table
