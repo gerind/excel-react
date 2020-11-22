@@ -1,4 +1,4 @@
-import React, { memo, useContext } from 'react'
+import React, { memo, useContext, useEffect, useState } from 'react'
 import { TableContext } from './Table'
 
 interface CellProps {
@@ -6,19 +6,30 @@ interface CellProps {
   colIndex: number
   width: number
 }
-
+/*
+  Схема: Cell при монтировании передаёт в Table свою функцию изменения своего состояния
+  Table хранит матрицу эти функций всех Cell-ов, и текущую выбранную ячейку
+  При клике на Cell вызывается колбэк в Table, который меняет соответственно селекшн
+*/
 const Cell: React.FC<CellProps> = ({rowIndex, colIndex, width}) => {
 
-  const selected = useContext(TableContext)
-  const selectedClass = selected.rowSelected === rowIndex &&
-      selected.columnSelected === colIndex ? 'selected' : ''
+  const table = useContext(TableContext)
+  console.log('Cell')
+  const [selected, setSelected] = useState('')
+
+  useEffect(() => {
+    table.cellsRef[rowIndex] = table.cellsRef[rowIndex] ?? {}
+    table.cellsRef[rowIndex][colIndex] = table.cellsRef[rowIndex][colIndex] ?? {}
+    table.cellsRef[rowIndex][colIndex].select = () => setSelected('selected')
+    table.cellsRef[rowIndex][colIndex].unselect = () => setSelected('')
+  }, [])
 
   return (
     <div
-      className={`cell ${selectedClass}`}
+      className={`cell ${selected}`}
       style={{width: width + 'px'}}
       contentEditable={true}
-      onClick={() => selected.changeSelected(rowIndex, colIndex)}
+      onMouseDown={()=>table.changeSelected(rowIndex, colIndex)}
     >
       {/*Here must be text*/}
     </div>

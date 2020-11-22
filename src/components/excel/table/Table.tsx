@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { StateType } from '../../../core/redux/stateInterface'
 import FirstRow from './FirstRow'
@@ -10,22 +10,30 @@ interface TableProps {
 }
 
 const Table: React.FC<TableProps> = ({rowCount, colCount}) => {
+  console.log('Table')
 
   const rowResize = useSelector((state: StateType) => state.resize.row)
   const columnResize = useSelector((state: StateType) => state.resize.column)
   
-  const [selectState, setSelectState] = useState({row: 0, column: 0})
+  const cellsRef = useRef<any>({})
 
-  const changeSelected = useCallback((rowIndex, columnIndex) => {
-    if (rowIndex !== selectState.row || columnIndex !== selectState.column) {
-      setSelectState({row: rowIndex, column: columnIndex})
+  useEffect(() => {
+    cellsRef.current.cell = [0, 0]
+    cellsRef.current[0][0].select()
+  }, [])
+
+  const changeSelected = useCallback((row, column) => {
+    const [prevRow, prevColumn] = cellsRef.current.cell
+    if (row !== prevRow || column !== prevColumn) {
+      cellsRef.current[prevRow][prevColumn].unselect()
+      cellsRef.current.cell = [row, column]
+      cellsRef.current[row][column].select()
     }
-  }, [selectState])
+  }, [])
 
   return (
     <TableContext.Provider value={{
-      rowSelected: selectState.row,
-      columnSelected: selectState.column,
+      cellsRef: cellsRef.current,
       changeSelected
     }}>
       <div className="excel__table">

@@ -11,6 +11,7 @@ interface RowProps {
 
 const Row: React.FC<RowProps> = ({rowIndex, colCount, rowResize, columnResize}) => {
 
+  console.log('Row')
   return (
     <div className="row" style={{height: rowResize + 'px'}}>
       <div className="info">
