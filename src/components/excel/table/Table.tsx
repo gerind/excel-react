@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
+import emitter from '../../../core/emitter'
 import { StateType } from '../../../core/redux/stateInterface'
 import FirstRow from './FirstRow'
 import Row from './Row'
@@ -27,6 +28,7 @@ const Table: React.FC<TableProps> = ({rowCount, colCount}) => {
       cellsRef.current[prevRow][prevColumn].unselect()
       cellsRef.current.cell = [row, column]
       cellsRef.current[row][column].select()
+      emitter.emit('table:select', cellsRef.current[row][column].target)
     }
   }, [])
 
