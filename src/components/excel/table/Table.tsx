@@ -20,6 +20,16 @@ const Table: React.FC<TableProps> = ({rowCount, colCount}) => {
   useEffect(() => {
     cellsRef.current.cell = [0, 0]
     cellsRef.current[0][0].select()
+
+    emitter.on('formula:input', target => {
+      const [row, col] = cellsRef.current.cell
+      cellsRef.current[row][col].change(target.value)
+    })
+
+    emitter.on('formula:tab', () => {
+      const [row, col] = cellsRef.current.cell
+      cellsRef.current[row][col].target.focus()
+    })
   }, [])
 
   const changeSelected = useCallback((row, column) => {

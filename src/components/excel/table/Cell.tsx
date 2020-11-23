@@ -15,10 +15,12 @@ interface CellProps {
 */
 const Cell: React.FC<CellProps> = ({rowIndex, colIndex, width}) => {
 
+  const [currentText, changeCurrentText] = useState('')
+
   const table = useContext(TableContext)
   const [selected, setSelected] = useState('')
 
-  const thisCellRef = useRef<HTMLDivElement>(null)
+  const thisCellRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     table.cellsRef[rowIndex] = table.cellsRef[rowIndex] ?? {}
@@ -29,30 +31,26 @@ const Cell: React.FC<CellProps> = ({rowIndex, colIndex, width}) => {
     }
     table.cellsRef[rowIndex][colIndex].unselect = () => setSelected('')
     table.cellsRef[rowIndex][colIndex].target = thisCellRef.current
+    table.cellsRef[rowIndex][colIndex].change = changeCurrentText
   }, [])
 
   const handler = useMemo(() =>
       keyboardSelectionHandler(rowIndex, colIndex, table.changeSelected), [rowIndex, colIndex, table.changeSelected])
-  
-  const [currentText, changeCurrentText] = useState('')
 
   return (
-    <div
+    <input
       ref={thisCellRef}
       className={`cell ${selected}`}
       style={{width: width + 'px'}}
-      contentEditable={true}
-      suppressContentEditableWarning={true}
       onMouseDown={()=>table.changeSelected(rowIndex, colIndex)}
       onKeyDown={handler}
-      onInput={e => {
-        const target = e.target as HTMLDivElement
-        changeCurrentText(target.textContent)
+      onChange={e => {
+        const target = e.target as HTMLInputElement
+        changeCurrentText(target.value)
         emitter.emit('table:input', target)
       }}
-    >
-      {currentText}
-    </div>
+      value={currentText}
+    />
   )
 }
 
