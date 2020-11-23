@@ -17,7 +17,7 @@ const Cell: React.FC<CellProps> = ({rowIndex, colIndex, width}) => {
   const table = useContext(TableContext)
   const [selected, setSelected] = useState('')
 
-  const thisCellRef = useRef<HTMLInputElement>(null)
+  const thisCellRef = useRef(null)
 
   useEffect(() => {
     table.cellsRef[rowIndex] = table.cellsRef[rowIndex] ?? {}
@@ -27,28 +27,22 @@ const Cell: React.FC<CellProps> = ({rowIndex, colIndex, width}) => {
       setSelected('selected')
     }
     table.cellsRef[rowIndex][colIndex].unselect = () => setSelected('')
-    table.cellsRef[rowIndex][colIndex].target = thisCellRef.current
   }, [])
 
   const handler = useMemo(() =>
       keyboardSelectionHandler(rowIndex, colIndex, table.changeSelected), [rowIndex, colIndex, table.changeSelected])
-
-  const [currentText, changeCurrentText] = useState('')
   
   return (
-    <input
+    <div
       ref={thisCellRef}
       className={`cell ${selected}`}
       style={{width: width + 'px'}}
-      onMouseDown={e => {
-        table.changeSelected(rowIndex, colIndex)
-      }}
+      contentEditable={true}
+      onMouseDown={()=>table.changeSelected(rowIndex, colIndex)}
       onKeyDown={handler}
-      value={currentText}
-      onChange={e => {
-        changeCurrentText(e.target.value)
-      }}
-    />
+    >
+      {/*Here must be text*/}
+    </div>
   )
 }
 
