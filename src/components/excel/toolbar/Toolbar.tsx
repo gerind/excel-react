@@ -12,7 +12,10 @@ const Toolbar: React.FC = () => {
   }, [])
 
   return (
-    <div className="excel__toolbar" ref={rootRef}>
+    <div
+      className="excel__toolbar"
+      ref={rootRef}
+    >  
       <button><span className="material-icons">format_align_left</span></button>
       <button><span className="material-icons">format_align_center</span></button>
       <button><span className="material-icons">format_align_right</span></button>

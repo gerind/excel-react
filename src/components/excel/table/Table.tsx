@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useRef} from 'react'
 import { useSelector } from 'react-redux'
-import emitter from '../../../core/emitter'
 import { StateType } from '../../../core/redux/stateInterface'
 import FirstRow from './FirstRow'
 import Row from './Row'
+import { useInitTable, useSelectionCallback } from './table.functions'
 
 interface TableProps {
   rowCount: number
@@ -17,30 +17,8 @@ const Table: React.FC<TableProps> = ({rowCount, colCount}) => {
   
   const cellsRef = useRef<any>({})
 
-  useEffect(() => {
-    cellsRef.current.cell = [0, 0]
-    cellsRef.current[0][0].select()
-
-    emitter.on('formula:input', target => {
-      const [row, col] = cellsRef.current.cell
-      cellsRef.current[row][col].change(target.value)
-    })
-
-    emitter.on('formula:tab', () => {
-      const [row, col] = cellsRef.current.cell
-      cellsRef.current[row][col].target.focus()
-    })
-  }, [])
-
-  const changeSelected = useCallback((row, column) => {
-    const [prevRow, prevColumn] = cellsRef.current.cell
-    if ((row !== prevRow || column !== prevColumn) && row < rowCount && column < colCount) {
-      cellsRef.current[prevRow][prevColumn].unselect()
-      cellsRef.current.cell = [row, column]
-      cellsRef.current[row][column].select()
-      emitter.emit('table:select', cellsRef.current[row][column].target)
-    }
-  }, [])
+  useInitTable(cellsRef)
+  const changeSelected = useSelectionCallback(cellsRef, rowCount, colCount)
 
   const contextRef = useRef<any>({
     cellsRef: cellsRef.current,

@@ -7,7 +7,7 @@ import Toolbar from './toolbar/Toolbar'
 const Excel: React.FC = () => {
 
   return (
-    <div className="excel">
+    <div className="excel" spellCheck={false} >
       <Header />
       <Toolbar />
       <Formula />
