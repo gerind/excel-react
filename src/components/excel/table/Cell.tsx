@@ -1,5 +1,7 @@
 import React, { memo, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import ContentEditable from 'react-contenteditable'
 import emitter from '../../../core/emitter'
+import { getInnerText } from '../../../core/utils'
 import keyboardSelectionHandler from './selection/keyboardSelectionHandler'
 import { TableContext } from './Table'
 
@@ -14,42 +16,46 @@ interface CellProps {
   При клике на Cell вызывается колбэк в Table, который меняет соответственно селекшн
 */
 const Cell: React.FC<CellProps> = ({rowIndex, colIndex, width}) => {
-
+  
   const [currentText, changeCurrentText] = useState('')
 
   const table = useContext(TableContext)
   const [selected, setSelected] = useState('')
 
-  const thisCellRef = useRef<HTMLInputElement>(null)
+  const thisCellRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     table.cellsRef[rowIndex] = table.cellsRef[rowIndex] ?? {}
-    table.cellsRef[rowIndex][colIndex] = table.cellsRef[rowIndex][colIndex] ?? {}
-    table.cellsRef[rowIndex][colIndex].select = () => {
-      thisCellRef.current.focus()
-      setSelected('selected')
-    }
-    table.cellsRef[rowIndex][colIndex].unselect = () => setSelected('')
-    table.cellsRef[rowIndex][colIndex].target = thisCellRef.current
-    table.cellsRef[rowIndex][colIndex].change = changeCurrentText
+    Object.assign(
+      table.cellsRef[rowIndex][colIndex] = table.cellsRef[rowIndex][colIndex] ?? {},
+      {
+        select() {
+          thisCellRef.current.focus()
+          setSelected('selected')
+        },
+        unselect() { setSelected('') },
+        target: thisCellRef.current,
+        change: changeCurrentText
+      }
+    )
   }, [])
 
   const handler = useMemo(() =>
       keyboardSelectionHandler(rowIndex, colIndex, table.changeSelected), [rowIndex, colIndex, table.changeSelected])
 
   return (
-    <input
-      ref={thisCellRef}
+    <ContentEditable
+      html={currentText}
+      innerRef={thisCellRef}
       className={`cell ${selected}`}
       style={{width: width + 'px'}}
       onMouseDown={()=>table.changeSelected(rowIndex, colIndex)}
       onKeyDown={handler}
       onChange={e => {
-        const target = e.target as HTMLInputElement
-        changeCurrentText(target.value)
+        const target = e.target as any
+        changeCurrentText(getInnerText(target))
         emitter.emit('table:input', target)
       }}
-      value={currentText}
     />
   )
 }

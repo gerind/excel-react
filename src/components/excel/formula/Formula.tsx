@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import emitter from '../../../core/emitter'
+import { getInnerText } from '../../../core/utils'
 
 const Formula: React.FC = () => {
 
@@ -8,10 +9,9 @@ const Formula: React.FC = () => {
   const formulaRef = useRef(null)
 
   useEffect(() => {
-    const selectOrInputHandler = target => changeCurrentText(target.value)
+    const selectOrInputHandler = target => changeCurrentText(getInnerText(target))
     emitter.on('table:select', selectOrInputHandler)
     emitter.on('table:input', selectOrInputHandler)
-
     emitter.on('table:tab', () => formulaRef.current.focus())
   }, [])
 
@@ -30,7 +30,7 @@ const Formula: React.FC = () => {
         }}
         onChange={e => {
           const target = e.target as HTMLInputElement
-          changeCurrentText(target.value)
+          changeCurrentText(getInnerText(target))
           emitter.emit('formula:input', formulaRef.current)
         }}
       />

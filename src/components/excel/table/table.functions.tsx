@@ -1,5 +1,6 @@
-import { MutableRefObject, useCallback, useEffect } from 'react';
-import emitter from '../../../core/emitter';
+import { MutableRefObject, useCallback, useEffect } from 'react'
+import emitter from '../../../core/emitter'
+import { getInnerText } from '../../../core/utils'
 
 export function useInitTable(cellsRef: MutableRefObject<any>) {
   useEffect(() => {
@@ -8,7 +9,7 @@ export function useInitTable(cellsRef: MutableRefObject<any>) {
 
     emitter.on('formula:input', target => {
       const [row, col] = cellsRef.current.cell
-      cellsRef.current[row][col].change(target.value)
+      cellsRef.current[row][col].change(getInnerText(target))
     })
 
     emitter.on('formula:tab', () => {

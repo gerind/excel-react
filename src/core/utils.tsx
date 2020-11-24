@@ -49,3 +49,6 @@ export function stateContainer(obj: {[key: string]: any}, ...props: (string | nu
   }, obj)
 }
 
+export function getInnerText(element: any) {
+  return element.value ?? element.textContent
+}

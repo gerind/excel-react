@@ -21,18 +21,15 @@
     border-bottom: 1px solid grey;
     flex-shrink: 0;
     position: relative;
+    display: flex;
+    align-items: center;
   }
   & .info, & .column {
-    display: flex;
     justify-content: center;
-    align-items: center;
+    background: #eee;
   }
   & .info {
     width: $info-width;
-    background: #eee;
-  }
-  & .column {
-    background: #eee;
   }
   & .cell {
     font-size: 15px;
