@@ -26,7 +26,9 @@ export function useSelectionCallback(cellsRef: MutableRefObject<any>, rowCount: 
       cellsRef.current[prevRow][prevColumn].unselect()
       cellsRef.current.cell = [row, column]
       cellsRef.current[row][column].select()
-      emitter.emit('table:select', cellsRef.current[row][column].target)
+      emitter.emit('table:select', {
+        target: cellsRef.current[row][column].target
+      })
     }
   }, [])
 }

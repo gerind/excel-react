@@ -1,7 +1,25 @@
+import { MutableRefObject, useEffect } from 'react'
 import { CODES } from './constants'
+import _ from 'lodash'
 
 export function preventDefault(event: Event): void {
   event.preventDefault()
+}
+
+export function usePreventDefaultEvent(target: EventTarget | MutableRefObject<EventTarget>, evtname: string) {
+  useEffect(() => {
+    const el: EventTarget = target instanceof EventTarget ? target : target.current
+    el.addEventListener(evtname, preventDefault)
+    return () => el.removeEventListener(evtname, preventDefault)
+  }, [])
+}
+
+export function usePreventDragStart(target: EventTarget | MutableRefObject<EventTarget>) {
+  usePreventDefaultEvent(target, 'dragstart')
+}
+
+export function usePreventSelectStart(target: EventTarget | MutableRefObject<EventTarget>) {
+  usePreventDefaultEvent(target, 'selectstart')
 }
 
 //colIndex >= 0
@@ -66,4 +84,8 @@ export function replaceCaret(el: HTMLElement) {
   sel.removeAllRanges()
   sel.addRange(range)
 
+}
+
+export function fullCopy<T>(data: T): T {
+  return _.cloneDeep(data)
 }

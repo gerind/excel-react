@@ -26,8 +26,10 @@ const Table: React.FC<TableProps> = ({rowCount, colCount}) => {
   })
 
   return (
-    <TableContext.Provider value={contextRef.current}>
-      <div className="excel__table">
+    <TableContext.Provider
+      value={contextRef.current}>
+      <div
+        className="excel__table">
         <FirstRow
           colCount={colCount}
           columnResize={columnResize}

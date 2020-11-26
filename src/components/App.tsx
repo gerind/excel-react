@@ -1,13 +1,10 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Excel from './excel/Excel'
-import { preventDefault } from '../core/utils'
+import { usePreventDragStart } from '../core/utils'
 
 const App: React.FC = () => {
 
-  useEffect(() => {
-    document.addEventListener('dragstart', preventDefault)
-    return () => document.removeEventListener('dragstart', preventDefault)
-  }, [])
+  usePreventDragStart(document)
 
   return (
     <Excel />

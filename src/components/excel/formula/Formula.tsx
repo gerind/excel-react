@@ -9,15 +9,19 @@ const Formula: React.FC = () => {
   const formulaRef = useRef(null)
 
   useEffect(() => {
-    const selectOrInputHandler = target => changeCurrentText(getInnerText(target))
+    const selectOrInputHandler = ({target}) => changeCurrentText(getInnerText(target))
     emitter.on('table:select', selectOrInputHandler)
     emitter.on('table:input', selectOrInputHandler)
     emitter.on('table:tab', () => formulaRef.current.focus())
   }, [])
 
   return (
-    <div className="excel__formula">
-      <div className="fx">fx</div>
+    <div
+      className="excel__formula">
+      <div
+        className="fx">
+        fx
+      </div>
       <input
         ref={formulaRef}
         className="formula"

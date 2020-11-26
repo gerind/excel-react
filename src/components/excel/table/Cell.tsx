@@ -45,11 +45,19 @@ const Cell: React.FC<CellProps> = ({rowIndex, colIndex, width}) => {
       ref={thisCellRef}
       className={`cell ${selected}`}
       style={{width: width + 'px'}}
-      onMouseDown={() => table.changeSelected(rowIndex, colIndex)}
+      onMouseDown={() => {
+        table.changeSelected(rowIndex, colIndex)
+      }}
       onKeyDown={handler}
-      onInput={e => emitter.emit('table:input', e.target)}
-      onBlur={e => changeCurrentText(getInnerText(e.target))}
-      onFocus={() => replaceCaret(thisCellRef.current)}
+      onInput={e => {
+        emitter.emit('table:input', { target: e.target })
+      }}
+      onBlur={e => {
+        changeCurrentText(getInnerText(e.target))
+      }}
+      onFocus={() => {
+        replaceCaret(thisCellRef.current)
+      }}
     >
       {currentText}
     </div>

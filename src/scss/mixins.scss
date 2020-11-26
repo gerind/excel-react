@@ -13,8 +13,10 @@
     background: #eee;
     cursor: pointer;
   }
-  &:active, &.active {
+  &.active {
     color: rgb(0, 132, 255);
-    cursor: pointer;
+  }
+  &:active {
+    color: rgb(255, 157, 65);
   }
 }

@@ -22,10 +22,10 @@
     flex-shrink: 0;
     position: relative;
     display: flex;
-    align-items: flex-start;
   }
   & .info, & .column {
     justify-content: center;
+    align-items: center;
     background: #eee;
   }
   & .info {
