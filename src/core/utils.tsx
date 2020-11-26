@@ -21,7 +21,7 @@ export function getColumnName(colIndex: number): string {
   )
 }
 
-export function debounce(fn: Function, ms: number): Function {
+export function debounce<T extends Function>(fn: T, ms: number): T {
   let canBeCalled: boolean = true
   return function(...args: any[]) {
     if (canBeCalled) {
@@ -31,7 +31,7 @@ export function debounce(fn: Function, ms: number): Function {
         canBeCalled = true
       }, ms)
     }
-  }
+  } as unknown as T
 }
 
 export function addEventListeners(element: EventTarget, listeners: {[key: string]: (event?: Event) => any}) {
@@ -51,4 +51,19 @@ export function stateContainer(obj: {[key: string]: any}, ...props: (string | nu
 
 export function getInnerText(element: any) {
   return element.value ?? element.textContent
+}
+
+export function replaceCaret(el: HTMLElement) {
+  const text = el.firstChild as any
+  if (text === null) {
+    return
+  }
+  const range = document.createRange()
+  range.setStart(text, text.length)
+  range.collapse(true)
+
+  const sel = window.getSelection()
+  sel.removeAllRanges()
+  sel.addRange(range)
+
 }

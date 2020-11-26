@@ -1,7 +1,6 @@
 import React, { memo, useContext, useEffect, useMemo, useRef, useState } from 'react'
-import ContentEditable from 'react-contenteditable'
 import emitter from '../../../core/emitter'
-import { getInnerText } from '../../../core/utils'
+import { getInnerText, replaceCaret } from '../../../core/utils'
 import keyboardSelectionHandler from './selection/keyboardSelectionHandler'
 import { TableContext } from './Table'
 
@@ -10,13 +9,9 @@ interface CellProps {
   colIndex: number
   width: number
 }
-/*
-  Схема: Cell при монтировании передаёт в Table свою функцию изменения своего состояния
-  Table хранит матрицу эти функций всех Cell-ов, и текущую выбранную ячейку
-  При клике на Cell вызывается колбэк в Table, который меняет соответственно селекшн
-*/
+
 const Cell: React.FC<CellProps> = ({rowIndex, colIndex, width}) => {
-  
+
   const [currentText, changeCurrentText] = useState('')
 
   const table = useContext(TableContext)
@@ -44,19 +39,20 @@ const Cell: React.FC<CellProps> = ({rowIndex, colIndex, width}) => {
       keyboardSelectionHandler(rowIndex, colIndex, table.changeSelected), [rowIndex, colIndex, table.changeSelected])
 
   return (
-    <ContentEditable
-      html={currentText}
-      innerRef={thisCellRef}
+    <div
+      contentEditable={true}
+      suppressContentEditableWarning={true}
+      ref={thisCellRef}
       className={`cell ${selected}`}
       style={{width: width + 'px'}}
-      onMouseDown={()=>table.changeSelected(rowIndex, colIndex)}
+      onMouseDown={() => table.changeSelected(rowIndex, colIndex)}
       onKeyDown={handler}
-      onChange={e => {
-        const target = e.target as any
-        changeCurrentText(getInnerText(target))
-        emitter.emit('table:input', target)
-      }}
-    />
+      onInput={e => emitter.emit('table:input', e.target)}
+      onBlur={e => changeCurrentText(getInnerText(e.target))}
+      onFocus={() => replaceCaret(thisCellRef.current)}
+    >
+      {currentText}
+    </div>
   )
 }
 

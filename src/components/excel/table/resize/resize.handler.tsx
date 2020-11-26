@@ -8,15 +8,17 @@ export function mouseDownHandlerResize(type: 'row' | 'column', index: number, se
     const coordName = isColumn ? 'clientX' : 'clientY'
     setStyles({[isColumn ? 'bottom' : 'right']: `-${windowSize}px`, opacity: 1})
     const prevCoord = downEvent[coordName]
-    const mouseMoveHandler = ((moveEvent: MouseEvent) => {
+    document.body.style.cursor = `${isColumn ? 'col' : 'row'}-resize`
+    const mouseMoveHandler = debounce((moveEvent: MouseEvent) => {
       const newCoord = moveEvent[coordName]
       setStyles({
         transform: isColumn
             ? `translate(${newCoord - prevCoord}px, 0)`
             : `translate(0, ${newCoord - prevCoord}px)`
       })
-    })
+    }, 15)
     const mouseUpHandler = (upEvent: MouseEvent) => {
+      document.body.style.cursor = ''
       const newCoord = upEvent[coordName]
       setStyles({
         [isColumn ? 'bottom' : 'right']: '',

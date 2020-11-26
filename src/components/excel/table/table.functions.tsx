@@ -20,7 +20,7 @@ export function useInitTable(cellsRef: MutableRefObject<any>) {
 }
 
 export function useSelectionCallback(cellsRef: MutableRefObject<any>, rowCount: number, colCount: number) {
-  return useCallback((row, column) => {
+  return useCallback((row: number, column: number, byKeyboard: boolean = false) => {
     const [prevRow, prevColumn] = cellsRef.current.cell
     if ((row !== prevRow || column !== prevColumn) && row < rowCount && column < colCount) {
       cellsRef.current[prevRow][prevColumn].unselect()

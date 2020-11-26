@@ -29,7 +29,7 @@ function keyboardSelectionHandler(row: number, col: number, changeSelected: Func
           return
       }
       event.preventDefault()
-      changeSelected(nextRow, nextCol)
+      changeSelected(nextRow, nextCol, true)
     }
   }
 }
