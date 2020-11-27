@@ -1,8 +1,8 @@
-import { MutableRefObject, useEffect } from 'react'
+import React, { MutableRefObject, useEffect } from 'react'
 import { CODES } from './constants'
 import _ from 'lodash'
 
-export function preventDefault(event: Event): void {
+export function preventDefault(event: Event | React.BaseSyntheticEvent): void {
   event.preventDefault()
 }
 
