@@ -27,7 +27,7 @@ const Formula: React.FC = () => {
         className="formula"
         value={currentText}
         onKeyDown={e => {
-          if (e.key === 'Tab') {
+          if (e.key === 'Tab' || e.key === 'Enter') {
             e.preventDefault()
             emitter.emit('formula:tab')
           }

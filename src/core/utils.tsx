@@ -89,3 +89,11 @@ export function replaceCaret(el: HTMLElement) {
 export function fullCopy<T>(data: T): T {
   return _.cloneDeep(data)
 }
+
+export function cellToId(row: number, col: number): string {
+  return `${row}:${col}`
+}
+
+export function idToCell(id: string): number[] {
+  return id.split(':').map(x => +x)
+}

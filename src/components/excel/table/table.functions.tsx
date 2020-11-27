@@ -7,15 +7,30 @@ export function useInitTable(cellsRef: MutableRefObject<any>) {
     cellsRef.current.cell = [0, 0]
     cellsRef.current[0][0].select()
 
-    emitter.on('formula:input', target => {
+    const onFormulaInput = target => {
       const [row, col] = cellsRef.current.cell
       cellsRef.current[row][col].change(getInnerText(target))
-    })
+    }
 
-    emitter.on('formula:tab', () => {
+    const onFormulaTab = () => {
       const [row, col] = cellsRef.current.cell
       cellsRef.current[row][col].target.focus()
-    })
+    }
+
+    const onToolbarChange = ({styles}) => {
+      const [row, col] = cellsRef.current.cell
+      cellsRef.current[row][col].changeStyle(styles)
+    }
+
+    emitter.on('formula:input', onFormulaInput)
+    emitter.on('formula:tab', onFormulaTab)
+    emitter.on('toolbar:change', onToolbarChange)
+
+    return () => {
+      emitter.off('formula:input', onFormulaInput)
+      emitter.off('formula:tab', onFormulaTab)
+      emitter.off('toolbar:change', onToolbarChange)
+    }
   }, [])
 }
 

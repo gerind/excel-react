@@ -5,6 +5,7 @@ export default function initialState(): StateType {
     resize: {
       row: {}, // index: height
       column: {} // index: width
-    }
+    },
+    style: {}
   }
 }

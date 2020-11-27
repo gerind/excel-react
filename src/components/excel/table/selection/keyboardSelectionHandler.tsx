@@ -4,7 +4,7 @@ import emitter from '../../../../core/emitter'
 function keyboardSelectionHandler(row: number, col: number, changeSelected: Function) {
   return function(event: React.KeyboardEvent) {
     let nextRow = row, nextCol = col
-    if (event.key === 'Tab' && event.shiftKey) {
+    if ((event.key === 'Tab' || event.key === 'Enter') && event.shiftKey) {
       event.preventDefault()
       emitter.emit('table:tab')
       return

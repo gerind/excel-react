@@ -3,6 +3,7 @@ import { usePreventSelectStart } from '../../../core/utils'
 import Button from './Button'
 import { getModel, ToolbarItem } from './toolbar.model'
 import _ from 'lodash'
+import emitter from '../../../core/emitter'
 
 const reducer = (state: ToolbarItem[]): ToolbarItem[] => [...state]
 
@@ -20,6 +21,7 @@ const Toolbar: React.FC = () => {
     if (!but.active) {
       Object.keys(styles).forEach(key => styles[key] = '')
     }
+    emitter.emit('toolbar:change', {styles} )
     
     changeState()
   }, [state])

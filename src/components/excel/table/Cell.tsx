@@ -13,6 +13,7 @@ interface CellProps {
 const Cell: React.FC<CellProps> = ({rowIndex, colIndex, width}) => {
 
   const [currentText, changeCurrentText] = useState('')
+  const [styleState, changeStyleState] = useState({})
 
   const table = useContext(TableContext)
   const [selected, setSelected] = useState('')
@@ -30,7 +31,10 @@ const Cell: React.FC<CellProps> = ({rowIndex, colIndex, width}) => {
         },
         unselect() { setSelected('') },
         target: thisCellRef.current,
-        change: changeCurrentText
+        change: changeCurrentText,
+        changeStyle(styles) {
+          changeStyleState(state => ({...state, ...styles}))
+        }
       }
     )
   }, [])
@@ -38,13 +42,18 @@ const Cell: React.FC<CellProps> = ({rowIndex, colIndex, width}) => {
   const handler = useMemo(() =>
       keyboardSelectionHandler(rowIndex, colIndex, table.changeSelected), [rowIndex, colIndex, table.changeSelected])
 
+  const styleObject = useMemo(() => ({
+    ...styleState,
+    width: width + 'px'
+  }), [styleState, width])
+
   return (
     <div
       contentEditable={true}
       suppressContentEditableWarning={true}
       ref={thisCellRef}
       className={`cell ${selected}`}
-      style={{width: width + 'px'}}
+      style={styleObject}
       onMouseDown={() => {
         table.changeSelected(rowIndex, colIndex)
       }}

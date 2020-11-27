@@ -13,10 +13,22 @@ export interface StateType {
       [key: number]: number
     }
   }
+  style: {
+    [key: string]: { // key in format `${row}:${col}`
+      [key: string]: string | number // styles
+    }
+  }
 }
 
-export interface resizeTablePayloadType {
+export interface resizeTableType {
   side: 'row' | 'column'
   index: number
   delta: number
+}
+
+export interface changeStyleType {
+  id: string
+  style: {
+    [key: string]: string | number // styles
+  }
 }
