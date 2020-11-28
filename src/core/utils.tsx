@@ -1,4 +1,4 @@
-import React, { MutableRefObject, useEffect } from 'react'
+import React, { MutableRefObject, useEffect, useRef } from 'react'
 import { CODES } from './constants'
 import _ from 'lodash'
 
@@ -8,7 +8,7 @@ export function preventDefault(event: Event | React.BaseSyntheticEvent): void {
 
 export function usePreventDefaultEvent(target: EventTarget | MutableRefObject<EventTarget>, evtname: string) {
   useEffect(() => {
-    const el: EventTarget = target instanceof EventTarget ? target : target.current
+    const el = target instanceof EventTarget ? target : target.current
     el.addEventListener(evtname, preventDefault)
     return () => el.removeEventListener(evtname, preventDefault)
   }, [])
@@ -40,7 +40,7 @@ export function getColumnName(colIndex: number): string {
 }
 
 export function debounce<T extends Function>(fn: T, ms: number): T {
-  let canBeCalled: boolean = true
+  let canBeCalled = true
   return function(...args: any[]) {
     if (canBeCalled) {
       fn(...args)
@@ -72,22 +72,16 @@ export function getInnerText(element: any) {
 }
 
 export function replaceCaret(el: HTMLElement) {
-  const text = el.firstChild as any
+  const text = el.firstChild
   if (text === null) {
     return
   }
   const range = document.createRange()
-  range.setStart(text, text.length)
+  range.setStart(text, text.nodeValue.length)
   range.collapse(true)
-
   const sel = window.getSelection()
   sel.removeAllRanges()
   sel.addRange(range)
-
-}
-
-export function fullCopy<T>(data: T): T {
-  return _.cloneDeep(data)
 }
 
 export function cellToId(row: number, col: number): string {
@@ -96,4 +90,23 @@ export function cellToId(row: number, col: number): string {
 
 export function idToCell(id: string): number[] {
   return id.split(':').map(x => +x)
+}
+
+export function useFromSecondRender(cb: Function, deps?: any[]) {
+  const notThisFirst = useRef<boolean>(false)
+  let lastDeps = null
+  useEffect(() => { notThisFirst.current = true }, [])
+  if (notThisFirst.current && ((typeof deps === 'undefined') || !_.isEqual(deps, lastDeps))) {
+    cb()
+    lastDeps = deps
+  }
+}
+
+export function storage(key: string, value?: any) {
+  if (value) {
+    localStorage.setItem(key, JSON.stringify(value))
+  }
+  else {
+    return JSON.parse(localStorage.getItem(key))
+  }
 }

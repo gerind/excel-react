@@ -18,6 +18,7 @@ export interface StateType {
       [key: string]: string | number // styles
     }
   }
+  selected: string // `${row}:${col}`
 }
 
 export interface resizeTableType {
@@ -27,8 +28,12 @@ export interface resizeTableType {
 }
 
 export interface changeStyleType {
-  id: string
+  id: string // in format `${row}:${col}`
   style: {
     [key: string]: string | number // styles
   }
+}
+
+export interface selectCellType {
+  id: string // `${row}:${col}`
 }

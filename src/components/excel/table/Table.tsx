@@ -1,9 +1,10 @@
-import React, { useRef} from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect, useRef} from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { StateType } from '../../../core/redux/stateInterface'
+import { idToCell, useFromSecondRender } from '../../../core/utils'
 import FirstRow from './FirstRow'
 import Row from './Row'
-import { useInitTable, useSelectionCallback } from './table.functions'
+import { useInitTable } from './table.functions'
 
 interface TableProps {
   rowCount: number
@@ -14,15 +15,28 @@ const Table: React.FC<TableProps> = ({rowCount, colCount}) => {
 
   const rowResize = useSelector((state: StateType) => state.resize.row)
   const columnResize = useSelector((state: StateType) => state.resize.column)
+
+  const dispatch = useDispatch()
   
   const cellsRef = useRef<any>({})
 
+  const nowSelected = useSelector((state: StateType) => state.selected)
+
+  useEffect(() => {
+    if (cellsRef.current.cell) {
+      const [prevRow, prevColumn] = cellsRef.current.cell
+      cellsRef.current[prevRow][prevColumn].unselect()
+    }
+    const [row, col] = idToCell(nowSelected)
+    cellsRef.current.cell = [row, col]
+    cellsRef.current[row][col].select()
+  }, [nowSelected])
+
   useInitTable(cellsRef)
-  const changeSelected = useSelectionCallback(cellsRef, rowCount, colCount)
 
   const contextRef = useRef<any>({
     cellsRef: cellsRef.current,
-    changeSelected
+    dispatch
   })
 
   return (

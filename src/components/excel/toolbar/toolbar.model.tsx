@@ -32,7 +32,7 @@ export function getModel(): ToolbarItem[] {
     },
     {
       icon: 'format_bold',
-      active: true,
+      active: false,
       styles: {
         fontWeight: 'bold'
       }
@@ -46,7 +46,7 @@ export function getModel(): ToolbarItem[] {
     },
     {
       icon: 'format_underlined',
-      active: true,
+      active: false,
       styles: {
         textDecoration: 'underline'
       }

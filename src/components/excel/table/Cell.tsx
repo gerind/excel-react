@@ -1,6 +1,7 @@
 import React, { memo, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import emitter from '../../../core/emitter'
-import { getInnerText, replaceCaret } from '../../../core/utils'
+import { selectCell } from '../../../core/redux/actions'
+import { cellToId, getInnerText, replaceCaret } from '../../../core/utils'
 import keyboardSelectionHandler from './selection/keyboardSelectionHandler'
 import { TableContext } from './Table'
 
@@ -40,7 +41,7 @@ const Cell: React.FC<CellProps> = ({rowIndex, colIndex, width}) => {
   }, [])
 
   const handler = useMemo(() =>
-      keyboardSelectionHandler(rowIndex, colIndex, table.changeSelected), [rowIndex, colIndex, table.changeSelected])
+      keyboardSelectionHandler(rowIndex, colIndex, table.dispatch), [rowIndex, colIndex, table.dispatch])
 
   const styleObject = useMemo(() => ({
     ...styleState,
@@ -55,7 +56,9 @@ const Cell: React.FC<CellProps> = ({rowIndex, colIndex, width}) => {
       className={`cell ${selected}`}
       style={styleObject}
       onMouseDown={() => {
-        table.changeSelected(rowIndex, colIndex)
+        table.dispatch(selectCell({
+          id: cellToId(rowIndex, colIndex)
+        }))
       }}
       onKeyDown={handler}
       onInput={e => {

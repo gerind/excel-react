@@ -1,7 +1,10 @@
 import React from 'react'
+import { Dispatch } from 'redux'
 import emitter from '../../../../core/emitter'
+import { selectCell } from '../../../../core/redux/actions'
+import { cellToId } from '../../../../core/utils'
 
-function keyboardSelectionHandler(row: number, col: number, changeSelected: Function) {
+function keyboardSelectionHandler(row: number, col: number, dispatch: Dispatch) {
   return function(event: React.KeyboardEvent) {
     let nextRow = row, nextCol = col
     if ((event.key === 'Tab' || event.key === 'Enter') && event.shiftKey) {
@@ -29,7 +32,9 @@ function keyboardSelectionHandler(row: number, col: number, changeSelected: Func
           return
       }
       event.preventDefault()
-      changeSelected(nextRow, nextCol, true)
+      dispatch(selectCell({
+        id: cellToId(nextRow, nextCol)
+      }))
     }
   }
 }

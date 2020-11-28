@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import Formula from './formula/Formula'
 import Header from './header/Header'
 import Table from './table/Table'
@@ -12,11 +12,11 @@ const Excel: React.FC = () => {
       <Toolbar />
       <Formula />
       <Table
-        rowCount={40}
-        colCount={32}
+        rowCount={52}
+        colCount={52}
       />
     </div>
   )
 }
 
-export default Excel
+export default memo(Excel)

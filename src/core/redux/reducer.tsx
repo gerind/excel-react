@@ -1,13 +1,15 @@
 import { columnMinWidth, columnWidth, rowHeight, rowMinHeight } from '../constants'
 import { idToCell, stateContainer } from '../utils'
 import initialState from './initialState'
-import { ActionType, changeStyleType, resizeTableType, StateType } from './stateInterface'
-import { CHANGE_STYLE, RESIZE } from './types'
+import { ActionType, changeStyleType, resizeTableType, selectCellType, StateType } from './stateInterface'
+import { CHANGE_STYLE, RESIZE, SELECT_CELL } from './types'
 
 const reducer = (prevState: StateType, action: ActionType): StateType => {
   const state = {...prevState}
   const { payload } = action
-  let cont = null
+  let cont = null,
+      id = null,
+      style = null
   console.log('Reducer,', prevState, action)
   switch (action.type) {
     case RESIZE:
@@ -18,7 +20,7 @@ const reducer = (prevState: StateType, action: ActionType): StateType => {
       cont[index] = Math.max(cont[index], side === 'column' ? columnMinWidth : rowMinHeight)
       return state
     case CHANGE_STYLE:
-      const {id, style} = payload as changeStyleType
+      ({id, style} = payload as changeStyleType)
       cont = stateContainer(state, 'style')
       cont[id] = cont[id] ?? {}
       Object.entries(style).forEach(([key, value]) => {
@@ -29,6 +31,12 @@ const reducer = (prevState: StateType, action: ActionType): StateType => {
           cont[id][key] = value
         }
       })
+      return state
+    case SELECT_CELL:
+      if (state.selected === payload.id) {
+        return prevState
+      }
+      state.selected = payload.id
       return state
     default:
       return initialState()
