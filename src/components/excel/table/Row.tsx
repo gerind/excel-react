@@ -6,10 +6,9 @@ interface RowProps {
   rowIndex: number
   colCount: number
   rowResize: number
-  columnResize: {[key: number]: number}
 }
 
-const Row: React.FC<RowProps> = ({rowIndex, colCount, rowResize, columnResize}) => {
+const Row: React.FC<RowProps> = ({rowIndex, colCount, rowResize}) => {
 
   return (
     <div className="row" style={{height: rowResize + 'px'}}>
@@ -28,7 +27,6 @@ const Row: React.FC<RowProps> = ({rowIndex, colCount, rowResize, columnResize}) 
                 key={colIndex}
                 rowIndex={rowIndex}
                 colIndex={colIndex}
-                width={columnResize[colIndex]}
               />
             ))
       }

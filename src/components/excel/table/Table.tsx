@@ -4,7 +4,7 @@ import { StateType } from '../../../core/redux/stateInterface'
 import { idToCell, useFromSecondRender } from '../../../core/utils'
 import FirstRow from './FirstRow'
 import Row from './Row'
-import { useInitTable } from './table.functions'
+import { useInitTable, useReselectCell } from './table.functions'
 
 interface TableProps {
   rowCount: number
@@ -15,6 +15,7 @@ const Table: React.FC<TableProps> = ({rowCount, colCount}) => {
 
   const rowResize = useSelector((state: StateType) => state.resize.row)
   const columnResize = useSelector((state: StateType) => state.resize.column)
+  let prevColumnResize = useRef(null)
 
   const dispatch = useDispatch()
   
@@ -22,21 +23,32 @@ const Table: React.FC<TableProps> = ({rowCount, colCount}) => {
 
   const nowSelected = useSelector((state: StateType) => state.selected)
 
-  useEffect(() => {
-    if (cellsRef.current.cell) {
-      const [prevRow, prevColumn] = cellsRef.current.cell
-      cellsRef.current[prevRow][prevColumn].unselect()
-    }
-    const [row, col] = idToCell(nowSelected)
-    cellsRef.current.cell = [row, col]
-    cellsRef.current[row][col].select()
-  }, [nowSelected])
-
+  useReselectCell(cellsRef, nowSelected)
   useInitTable(cellsRef)
+
+  //Вынести
+  useEffect(() => {
+    if (prevColumnResize.current !== null) {
+      const prev = prevColumnResize.current
+      Object.entries(columnResize).forEach(([key, value]) => {
+        if (prev[key] !== value) {
+          for (let i = 0; i < rowCount; ++i) {
+            cellsRef.current[i][key].changeWidth(value)
+          }
+        }
+      })
+    }
+    prevColumnResize.current = columnResize
+  }, [columnResize])
 
   const contextRef = useRef<any>({
     cellsRef: cellsRef.current,
-    dispatch
+    dispatch,
+    initial: {
+      rowResize,
+      columnResize,
+      nowSelected
+    }
   })
 
   return (
@@ -57,7 +69,6 @@ const Table: React.FC<TableProps> = ({rowCount, colCount}) => {
                   colCount={colCount}
                   key={rowIndex}
                   rowResize={rowResize[rowIndex]}
-                  columnResize={columnResize}
                 />
               ))
         }

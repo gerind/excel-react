@@ -8,16 +8,16 @@ import { TableContext } from './Table'
 interface CellProps {
   rowIndex: number
   colIndex: number
-  width: number
 }
 
-const Cell: React.FC<CellProps> = ({rowIndex, colIndex, width}) => {
+const Cell: React.FC<CellProps> = ({rowIndex, colIndex}) => {
 
   const [currentText, changeCurrentText] = useState('')
   const [styleState, changeStyleState] = useState({})
 
   const table = useContext(TableContext)
-  const [selected, setSelected] = useState('')
+  const [selected, setSelected] = useState(table.initial.nowSelected === cellToId(rowIndex, colIndex) ? 'selected' : '')
+  const [width, changeWidth] = useState<number>(table.initial.columnResize[colIndex])
 
   const thisCellRef = useRef<HTMLDivElement>(null)
 
@@ -35,7 +35,8 @@ const Cell: React.FC<CellProps> = ({rowIndex, colIndex, width}) => {
         change: changeCurrentText,
         changeStyle(styles) {
           changeStyleState(state => ({...state, ...styles}))
-        }
+        },
+        changeWidth
       }
     )
   }, [])

@@ -32,16 +32,14 @@ export function useInitTable(cellsRef: MutableRefObject<any>) {
   }, [])
 }
 
-/*export function useSelectionCallback(cellsRef: MutableRefObject<any>, rowCount: number, colCount: number, dispatch: Dispatch<any>) {
-  return useCallback((row: number, column: number, byKeyboard: boolean = false) => {
-    const [prevRow, prevColumn] = cellsRef.current.cell
-    if ((row !== prevRow || column !== prevColumn) && row < rowCount && column < colCount) {
+export function useReselectCell(cellsRef: MutableRefObject<any>, nowSelected: string) {
+  useEffect(() => {
+    if (cellsRef.current.cell) {
+      const [prevRow, prevColumn] = cellsRef.current.cell
       cellsRef.current[prevRow][prevColumn].unselect()
-      cellsRef.current.cell = [row, column]
-      cellsRef.current[row][column].select()
-      dispatch(selectCell({
-        id: cellToId(row, column)
-      }))
     }
-  }, [])
-}*/
+    const [row, col] = idToCell(nowSelected)
+    cellsRef.current.cell = [row, col]
+    cellsRef.current[row][col].select()
+  }, [nowSelected])
+}
