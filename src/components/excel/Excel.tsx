@@ -1,4 +1,5 @@
 import React, { memo } from 'react'
+import { TABLE_HEIGHT, TABLE_WIDTH } from '../../core/constants'
 import Formula from './formula/Formula'
 import Header from './header/Header'
 import Table from './table/Table'
@@ -12,8 +13,8 @@ const Excel: React.FC = () => {
       <Toolbar />
       <Formula />
       <Table
-        rowCount={52}
-        colCount={52}
+        rowCount={TABLE_HEIGHT}
+        colCount={TABLE_WIDTH}
       />
     </div>
   )

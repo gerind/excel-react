@@ -1,4 +1,4 @@
-import { columnMinWidth, columnWidth, rowHeight, rowMinHeight } from '../constants'
+import { columnMinWidth, columnWidth, rowHeight, rowMinHeight, TABLE_HEIGHT, TABLE_WIDTH } from '../constants'
 import { idToCell, stateContainer } from '../utils'
 import initialState from './initialState'
 import { ActionType, changeStyleType, resizeTableType, selectCellType, StateType } from './stateInterface'
@@ -36,8 +36,12 @@ const reducer = (prevState: StateType, action: ActionType): StateType => {
       if (state.selected === payload.id) {
         return prevState
       }
-      state.selected = payload.id
-      return state
+      const [row, col] = idToCell(payload.id)
+      if (row < TABLE_HEIGHT && col < TABLE_WIDTH) {
+        state.selected = payload.id
+        return state
+      }
+      return prevState
     default:
       return initialState()
   }

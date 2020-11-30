@@ -9,9 +9,11 @@ export default function initialState(): StateType {
         row: {}, // index: height
         column: {} // index: width
       },
-      style: {},
-      selected: '0:0'
+      style: {}
     },
-    currentState
+    currentState,
+    {
+      selected: '0:0'
+    }
   )
 }

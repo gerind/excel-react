@@ -10,3 +10,6 @@ export const columnWidth = 120
 
 export const rowMinHeight = 20
 export const columnMinWidth = 40
+
+export const TABLE_WIDTH = 52
+export const TABLE_HEIGHT = 52

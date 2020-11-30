@@ -1,7 +1,6 @@
 import React, { useEffect, useRef} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { StateType } from '../../../core/redux/stateInterface'
-import { idToCell, useFromSecondRender } from '../../../core/utils'
 import FirstRow from './FirstRow'
 import Row from './Row'
 import { useInitTable, useReselectCell } from './table.functions'
