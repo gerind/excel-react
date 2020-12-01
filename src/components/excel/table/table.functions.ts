@@ -7,12 +7,12 @@ export function useInitTable(cellsRef: MutableRefObject<any>) {
 
     const onFormulaInput = target => {
       const [row, col] = cellsRef.current.cell
-      cellsRef.current[row][col].change(getInnerText(target))
+      cellsRef.current[row][col].changeText(getInnerText(target))
     }
 
     const onFormulaTab = () => {
       const [row, col] = cellsRef.current.cell
-      cellsRef.current[row][col].target.focus()
+      cellsRef.current[row][col].focus()
     }
 
     const onToolbarChange = ({styles}) => {

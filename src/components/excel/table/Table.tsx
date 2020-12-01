@@ -4,6 +4,7 @@ import { StateType } from '../../../core/redux/stateInterface'
 import FirstRow from './FirstRow'
 import Row from './Row'
 import { useInitTable, useReselectCell } from './table.functions'
+import { TableContext } from './TableContext'
 
 interface TableProps {
   rowCount: number
@@ -75,7 +76,5 @@ const Table: React.FC<TableProps> = ({rowCount, colCount}) => {
     </TableContext.Provider>
   )
 }
-
-export const TableContext = React.createContext(null)
 
 export default Table
