@@ -1,4 +1,4 @@
-import React, { useEffect, useRef} from 'react'
+import React, { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { StateType } from '../../../core/redux/stateInterface'
 import FirstRow from './FirstRow'
@@ -14,8 +14,6 @@ interface TableProps {
 const Table: React.FC<TableProps> = ({rowCount, colCount}) => {
 
   const rowResize = useSelector((state: StateType) => state.resize.row)
-  const columnResize = useSelector((state: StateType) => state.resize.column)
-  let prevColumnResize = useRef(null)
 
   const dispatch = useDispatch()
   
@@ -25,7 +23,8 @@ const Table: React.FC<TableProps> = ({rowCount, colCount}) => {
 
   useReselectCell(cellsRef, nowSelected)
   useInitTable(cellsRef)
-  useColumnResize(prevColumnResize, columnResize, rowCount, cellsRef)
+  
+  const columnResize = useColumnResize(cellsRef, rowCount)
 
   const contextRef = useRef<any>({
     cellsRef: cellsRef.current,
