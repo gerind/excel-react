@@ -43,3 +43,19 @@ export function useReselectCell(cellsRef: MutableRefObject<any>, nowSelected: st
     cellsRef.current[row][col].select()
   }, [nowSelected])
 }
+
+export function useColumnResize(prevColumnResize, columnResize, rowCount, cellsRef) {
+  useEffect(() => {
+    if (prevColumnResize.current !== null) {
+      const prev = prevColumnResize.current
+      Object.entries(columnResize).forEach(([key, value]) => {
+        if (prev[key] !== value) {
+          for (let i = 0; i < rowCount; ++i) {
+            cellsRef.current[i][key].changeWidth(value)
+          }
+        }
+      })
+    }
+    prevColumnResize.current = columnResize
+  }, [columnResize])
+}

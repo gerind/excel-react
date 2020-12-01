@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { StateType } from '../../../core/redux/stateInterface'
 import FirstRow from './FirstRow'
 import Row from './Row'
-import { useInitTable, useReselectCell } from './table.functions'
+import { useColumnResize, useInitTable, useReselectCell } from './table.functions'
 import { TableContext } from './TableContext'
 
 interface TableProps {
@@ -25,21 +25,7 @@ const Table: React.FC<TableProps> = ({rowCount, colCount}) => {
 
   useReselectCell(cellsRef, nowSelected)
   useInitTable(cellsRef)
-
-  //Вынести
-  useEffect(() => {
-    if (prevColumnResize.current !== null) {
-      const prev = prevColumnResize.current
-      Object.entries(columnResize).forEach(([key, value]) => {
-        if (prev[key] !== value) {
-          for (let i = 0; i < rowCount; ++i) {
-            cellsRef.current[i][key].changeWidth(value)
-          }
-        }
-      })
-    }
-    prevColumnResize.current = columnResize
-  }, [columnResize])
+  useColumnResize(prevColumnResize, columnResize, rowCount, cellsRef)
 
   const contextRef = useRef<any>({
     cellsRef: cellsRef.current,
