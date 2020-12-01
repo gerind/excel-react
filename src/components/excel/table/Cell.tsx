@@ -51,6 +51,14 @@ class Cell extends React.PureComponent<CellProps> {
     }))
   }
 
+  changeWidth(newWidth: number) {
+    this.setState((state: any) => ({
+      styles: {
+        ...state.styles, width: newWidth
+      }
+    }))
+  }
+
   focus() {
     this.thisCellRef.current.focus()
   }
