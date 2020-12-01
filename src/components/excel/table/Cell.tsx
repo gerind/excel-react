@@ -81,7 +81,7 @@ const Cell: React.FC<CellProps> = ({rowIndex, colIndex}) => {
 export default memo(Cell)
 */
 
-class Cell extends React.Component<CellProps> {
+class Cell extends React.PureComponent<CellProps> {
 
   private readonly thisCellRef = React.createRef<HTMLDivElement>()
   private readonly handler = keyboardSelectionHandler(this.props.rowIndex, this.props.colIndex, this.context.dispatch)
