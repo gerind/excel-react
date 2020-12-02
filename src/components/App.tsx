@@ -1,16 +1,10 @@
-import React, { memo, useEffect } from 'react'
+import React, { memo } from 'react'
 import Excel from './excel/Excel'
-import { storage, usePreventDragStart } from '../core/utils'
-import { useSelector } from 'react-redux'
+import { usePreventDragStart } from '../core/utils'
 
 const App: React.FC = () => {
 
   usePreventDragStart(document)
-
-  const state = useSelector(state => state)
-  useEffect(() => {
-    storage('excel', state)
-  }, [state])
 
   return (
     <Excel />

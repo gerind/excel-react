@@ -1,19 +1,16 @@
-import { storage } from '../utils';
-import { StateType } from './stateInterface';
+import { StateType } from './stateInterface'
 
 export default function initialState(): StateType {
-  const currentState = storage('excel')
+  const currentState = {}
   return Object.assign(
     {
       resize: {
         row: {}, // index: height
         column: {} // index: width
       },
-      style: {}
-    },
-    currentState,
-    {
+      style: {},
       selected: '0:0'
-    }
+    },
+    currentState
   )
 }

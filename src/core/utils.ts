@@ -101,12 +101,3 @@ export function useFromSecondRender(cb: Function, deps?: any[]) {
     lastDeps = deps
   }
 }
-
-export function storage(key: string, value?: any) {
-  if (value) {
-    localStorage.setItem(key, JSON.stringify(value))
-  }
-  else {
-    return JSON.parse(localStorage.getItem(key))
-  }
-}
