@@ -1,3 +1,5 @@
+import { StyleObject } from '../scriptTypes'
+
 
 export interface ActionType {
   type: string | number,
@@ -14,9 +16,10 @@ export interface StateType {
     }
   }
   style: {
-    [key: string]: { // key in format `${row}:${col}`
-      [key: string]: string | number // styles
-    }
+    [key: string]: StyleObject
+  }
+  text: {
+    [key: string]: string
   }
   selected: string // `${row}:${col}`
 }
@@ -27,13 +30,16 @@ export interface resizeTableType {
   delta: number
 }
 
-export interface changeStyleType {
+export type changeStyleType = StyleObject | {
   id: string // in format `${row}:${col}`
-  style: {
-    [key: string]: string | number // styles
-  }
+  style: StyleObject
 }
 
-export interface selectCellType {
+export type changeTextType = string | {
+  id: string // in format `${row}:${col}`
+  text: string // new text
+}
+
+export type selectCellType = string | {
   id: string // `${row}:${col}`
 }

@@ -3,7 +3,6 @@ import { preventDefault, usePreventSelectStart } from '../../../core/utils'
 import Button from './Button'
 import { getModel, ToolbarItem } from './toolbar.model'
 import _ from 'lodash'
-import emitter from '../../../core/emitter'
 
 const reducer = (state: ToolbarItem[]): ToolbarItem[] => [...state]
 

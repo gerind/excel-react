@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react'
-import emitter from '../../../core/emitter'
 import { getInnerText } from '../../../core/utils'
 
 const Formula: React.FC = () => {
@@ -12,7 +11,6 @@ const Formula: React.FC = () => {
     const selectOrInputHandler = ({target}) => changeCurrentText(getInnerText(target))
     emitter.on('table:select', selectOrInputHandler)
     emitter.on('table:input', selectOrInputHandler)
-    emitter.on('table:tab', () => formulaRef.current.focus())
   }, [])
 
   return (
@@ -29,7 +27,6 @@ const Formula: React.FC = () => {
         onKeyDown={e => {
           if (e.key === 'Tab' || e.key === 'Enter') {
             e.preventDefault()
-            emitter.emit('formula:tab')
           }
         }}
         onChange={e => {

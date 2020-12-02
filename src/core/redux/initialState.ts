@@ -9,6 +9,7 @@ export default function initialState(): StateType {
         column: {} // index: width
       },
       style: {},
+      text: {},
       selected: '0:0'
     },
     currentState

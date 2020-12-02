@@ -1,6 +1,5 @@
 import React from 'react'
-import emitter from '../../../core/emitter'
-import { selectCell } from '../../../core/redux/actions'
+import { changeText, selectCell } from '../../../core/redux/actions'
 import { styleObject } from '../../../core/scriptTypes'
 import { cellToId, getInnerText, replaceCaret } from '../../../core/utils'
 import keyboardSelectionHandler from './selection/keyboardSelectionHandler'
@@ -38,9 +37,11 @@ class Cell extends React.PureComponent<CellProps> {
   }
 
   changeText(newText: string) {
-    this.setState({
-      currentText: newText
-    })
+    if (document.activeElement !== this.thisCellRef.current) {
+      this.setState({
+        currentText: newText
+      })
+    }
   }
 
   changeStyle(styles: styleObject) {
@@ -54,7 +55,7 @@ class Cell extends React.PureComponent<CellProps> {
   changeWidth(newWidth: number) {
     this.setState((state: any) => ({
       styles: {
-        ...state.styles, width: newWidth
+        ...state.styles, width: newWidth + 'px'
       }
     }))
   }
@@ -80,13 +81,11 @@ class Cell extends React.PureComponent<CellProps> {
         className={`cell ${this.state.selected}`}
         style={this.state.styles}
         onMouseDown={() => {
-          this.context.dispatch(selectCell({
-            id: cellToId(this.props.rowIndex, this.props.colIndex)
-          }))
+          this.context.dispatch(selectCell(cellToId(this.props.rowIndex, this.props.colIndex)))
         }}
         onKeyDown={this.handler}
         onInput={e => {
-          emitter.emit('table:input', { target: e.target })
+          this.context.dispatch(changeText(getInnerText(e.target)))
         }}
         onBlur={e => {
           this.setState({

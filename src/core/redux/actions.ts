@@ -1,5 +1,5 @@
-import { ActionType, changeStyleType, resizeTableType, selectCellType } from './stateInterface'
-import { CHANGE_STYLE, RESIZE, SELECT_CELL } from './types'
+import { ActionType, changeStyleType, changeTextType, resizeTableType, selectCellType } from './stateInterface'
+import { CHANGE_STYLE, CHANGE_TEXT, RESIZE, SELECT_CELL } from './types'
 
 export function resizeTable(payload: resizeTableType): ActionType {
   return {
@@ -11,6 +11,13 @@ export function resizeTable(payload: resizeTableType): ActionType {
 export function changeStyle(payload: changeStyleType): ActionType {
   return {
     type: CHANGE_STYLE,
+    payload
+  }
+}
+
+export function changeText(payload: changeTextType): ActionType {
+  return {
+    type: CHANGE_TEXT,
     payload
   }
 }

@@ -1,6 +1,5 @@
 import { MutableRefObject, useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
-import emitter from '../../../core/emitter'
 import { StateType } from '../../../core/redux/stateInterface'
 import { getInnerText, idToCell } from '../../../core/utils'
 
@@ -34,7 +33,9 @@ export function useInitTable(cellsRef: MutableRefObject<any>) {
   }, [])
 }
 
-export function useReselectCell(cellsRef: MutableRefObject<any>, nowSelected: string) {
+export function useReselectCell(cellsRef: MutableRefObject<any>): string {
+  const nowSelected = useSelector((state: StateType) => state.selected)
+
   useEffect(() => {
     if (cellsRef.current.cell) {
       const [prevRow, prevColumn] = cellsRef.current.cell
@@ -44,6 +45,8 @@ export function useReselectCell(cellsRef: MutableRefObject<any>, nowSelected: st
     cellsRef.current.cell = [row, col]
     cellsRef.current[row][col].select()
   }, [nowSelected])
+  
+  return nowSelected
 }
 
 export function useColumnResize(cellsRef: MutableRefObject<any>, rowCount: number) {

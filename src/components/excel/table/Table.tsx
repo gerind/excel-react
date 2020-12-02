@@ -19,14 +19,12 @@ const Table: React.FC<TableProps> = ({rowCount, colCount}) => {
   
   const cellsRef = useRef<any>({})
 
-  const nowSelected = useSelector((state: StateType) => state.selected)
-
-  useReselectCell(cellsRef, nowSelected)
+  const nowSelected = useReselectCell(cellsRef)
   useInitTable(cellsRef)
   
   const columnResize = useColumnResize(cellsRef, rowCount)
 
-  const contextRef = useRef<any>({
+  const contextRef = useRef({
     cellsRef: cellsRef.current,
     dispatch,
     initial: {

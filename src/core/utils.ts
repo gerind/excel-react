@@ -44,10 +44,10 @@ export function debounce<T extends Function>(fn: T, ms: number): T {
   return function(...args: any[]) {
     if (canBeCalled) {
       fn(...args)
-      canBeCalled = false
       setTimeout(() => {
         canBeCalled = true
       }, ms)
+      canBeCalled = false
     }
   } as unknown as T
 }

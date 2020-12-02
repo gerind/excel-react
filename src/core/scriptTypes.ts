@@ -1,4 +1,4 @@
 
-export interface styleObject {
+export interface StyleObject {
   [key: string]: string | number
 }
