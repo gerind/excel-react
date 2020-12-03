@@ -9,15 +9,10 @@ const Formula: React.FC = () => {
   const dispatch = useDispatch()
 
   const formulaRef = useRef<HTMLInputElement>(null)
-  //const currentText = useRef<string>('')
 
   const nowSelected = useSelector((state: StateType) => state.selected)
   const stateText = useSelector((state: StateType) => state.text)
 
-  console.log('formula render')
-  /*useEffect(() => {
-    currentText.current = stateText[nowSelected]
-  }, [nowSelected, stateText])*/
   const currentText = stateText[nowSelected] ?? ''
 
   return (

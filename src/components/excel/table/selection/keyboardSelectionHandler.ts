@@ -8,9 +8,14 @@ function keyboardSelectionHandler(row: number, col: number, dispatch: Dispatch) 
   return function(event: React.KeyboardEvent) {
     let nextRow = row, nextCol = col
     if (event.key === 'Tab') {
-      ++nextCol
+      event.preventDefault()
+      dispatch(selectCell(cellToId(nextRow, nextCol + 1)))
     }
-    if (!event.shiftKey) {
+    else if (event.key === 'Enter') {
+      event.preventDefault()
+      dispatch(selectCell(cellToId(nextRow + 1, nextCol)))
+    }
+    else if (!event.shiftKey) {
       switch (event.key) {
         case 'ArrowUp':
           nextRow = Math.max(nextRow - 1, 0)
@@ -29,9 +34,7 @@ function keyboardSelectionHandler(row: number, col: number, dispatch: Dispatch) 
           return
       }
       event.preventDefault()
-      dispatch(selectCell({
-        id: cellToId(nextRow, nextCol)
-      }))
+      dispatch(selectCell(cellToId(nextRow, nextCol)))
     }
   }
 }
