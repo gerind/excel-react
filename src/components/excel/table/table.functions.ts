@@ -13,6 +13,11 @@ export function useSelectorChanges(cellsRef: MutableRefObject<CellsRefType>, now
     cellsRef.current[row][col].changeText(stateText[nowSelected])
   })
 
+  const styles = useSelector((state: StateType) => state.style[nowSelected])
+  useEffect(() => {
+    cellsRef.current[row][col].changeStyle(styles)
+  }, [styles])
+
 }
 
 export function useReselectCell(cellsRef: MutableRefObject<CellsRefType>): string {

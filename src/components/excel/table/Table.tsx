@@ -22,7 +22,6 @@ export const Table: React.FC<TableProps> = ({rowCount, colCount}) => {
   const rowResize = useSelector((state: StateType) => state.resize.row)
 
   const dispatch = useDispatch()
-  const store = useStore()
 
   const cellsRef = useRef<CellsRefType>({})
 

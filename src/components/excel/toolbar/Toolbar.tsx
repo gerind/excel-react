@@ -3,24 +3,20 @@ import { preventDefault, usePreventSelectStart } from '../../../core/utils'
 import Button from './Button'
 import { getModel, ToolbarModel } from './toolbar.model'
 import _ from 'lodash'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { StateType } from '../../../core/redux/stateInterface'
-
-const reducer = (state: ToolbarModel, action?: ToolbarModel): ToolbarModel => {
-  if (action) {
-    return {...action}
-  }
-  return {...state}
-}
+import { changeStyle } from '../../../core/redux/actions'
 
 const Toolbar: React.FC = () => {
 
   const rootRef = useRef<HTMLDivElement>(null)
   usePreventSelectStart(rootRef)
 
-  const styles = useSelector((state: StateType) => state.style[state.selected])
+  const dispatch = useDispatch()
 
-  const [state, changeState] = useReducer(reducer, null, () => getModel(styles))
+  const styles = useSelector((state: StateType) => state.style[state.selected] ?? {})
+
+  const state = getModel(styles)
 
   const toggle = useCallback((icon: string) => {
     const but = state[icon]
@@ -29,9 +25,7 @@ const Toolbar: React.FC = () => {
     if (!but.active && !but.group) {
       Object.keys(styles).forEach(key => styles[key] = '')
     }
-    //emitter.emit('toolbar:change', {styles} )
-    
-    changeState()
+    dispatch(changeStyle(styles))
   }, [state])
 
   return (

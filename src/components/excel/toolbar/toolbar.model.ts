@@ -13,40 +13,40 @@ export interface ToolbarModel {
 export function getModel(styles: StyleObject): ToolbarModel {
   return {
     'format_align_left': {
-      active: false,
+      active: !styles.justifyContent,
       styles: {
         justifyContent: ''
       },
       group: true
     },
     'format_align_center': {
-      active: false,
+      active: styles.justifyContent === 'center',
       styles: {
         justifyContent: 'center'
       },
       group: true
     },
     'format_align_right': {
-      active: false,
+      active: styles.justifyContent === 'flex-end',
       styles: {
         justifyContent: 'flex-end'
       },
       group: true
     },
     'format_bold': {
-      active: false,
+      active: styles.fontWeight === 'bold',
       styles: {
         fontWeight: 'bold'
       }
     },
     'format_italic': {
-      active: false,
+      active: styles.fontStyle === 'italic',
       styles: {
         fontStyle: 'italic'
       }
     },
     'format_underlined':{
-      active: false,
+      active: styles.textDecoration === 'underline',
       styles: {
         textDecoration: 'underline'
       }

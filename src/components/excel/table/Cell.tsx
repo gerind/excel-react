@@ -57,11 +57,13 @@ class Cell extends React.PureComponent<CellProps> {
   }
 
   changeStyle(styles: StyleObject) {
-    this.setState((state: any) => ({
-      styles: {
-        ...state.styles, ...styles
-      }
-    }))
+    if (styles !== this.state.styles) {
+      this.setState((state: any) => ({
+        styles: {
+          ...styles, width: state.styles.width
+        }
+      }))
+    }
   }
 
   changeWidth(newWidth: number) {

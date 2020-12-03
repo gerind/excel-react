@@ -11,7 +11,6 @@ const reducer = (prevState: StateType, action: ActionType): StateType => {
       id = null,
       style = null,
       text = null
-  console.log('Reducer,', prevState, action)
   switch (action.type) {
     case RESIZE:
       const {side, index, delta} = payload as resizeTableType
@@ -29,7 +28,7 @@ const reducer = (prevState: StateType, action: ActionType): StateType => {
         ([id, style] = [state.selected, payload])
       }
       cont = stateContainer(state, 'style')
-      cont[id] = cont[id] ?? {}
+      cont[id] = cont[id] ? ({...cont[id]}) : {}
       Object.entries(style).forEach(([key, value]) => {
         if (value === '') {
           delete cont[id][key]
