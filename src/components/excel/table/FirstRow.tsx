@@ -10,13 +10,19 @@ interface FirstRowProps {
 const FirstRow: React.FC<FirstRowProps> = ({colCount, columnResize}) => {
 
   return (
-    <div className="row">
-      <div className="info"></div>
+    <div
+      className="row">
+      <div
+        className="info" />
       {
         new Array(colCount)
             .fill(null)
             .map((_, colIndex) => (
-              <div className="column" key={colIndex} style={{width: columnResize[colIndex] + 'px'}} >
+              <div
+                className="column"
+                key={colIndex}
+                style={{width: columnResize[colIndex] + 'px'}}
+              >
                 {getColumnName(colIndex)}
                 <Resizer
                   type={'column'}
