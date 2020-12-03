@@ -1,4 +1,6 @@
 
+export const CHANGE_TITLE = 'CHANGE_TITLE'
+
 export const RESIZE = 'RESIZE'
 
 export const CHANGE_STYLE = 'CHANGE_STYLE'

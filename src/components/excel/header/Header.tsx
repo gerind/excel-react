@@ -1,9 +1,16 @@
 import React, { useRef } from 'react'
-import { usePreventSelectStart } from '../../../core/utils'
+import { useDispatch, useSelector } from 'react-redux'
+import { changeTitle } from '../../../core/redux/actions'
+import { StateType } from '../../../core/redux/stateInterface'
+import { getInnerText, usePreventSelectStart } from '../../../core/utils'
 
 const Header: React.FC = () => {
   const rootRef = useRef<HTMLDivElement>(null)
   usePreventSelectStart(rootRef)
+  
+  const dispatch = useDispatch()
+
+  const titleText = useSelector((state: StateType) => state.title)
 
   return (
     <div
@@ -13,8 +20,11 @@ const Header: React.FC = () => {
         className="title">
         <input
           type="text"
-          defaultValue="Название таблицы"
           placeholder="Название таблицы"
+          value={titleText}
+          onChange={e => {
+            dispatch(changeTitle(getInnerText(e.target)))
+          }}
         />
       </div>
       <div

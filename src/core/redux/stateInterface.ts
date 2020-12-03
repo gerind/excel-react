@@ -7,6 +7,7 @@ export interface ActionType {
 }
 
 export interface StateType {
+  title: string
   resize: {
     row: {
       [key: number]: number
@@ -22,6 +23,10 @@ export interface StateType {
     [key: string]: string
   }
   selected: string // `${row}:${col}`
+}
+
+export type changeTitleType = string | {
+  title: string
 }
 
 export interface resizeTableType {

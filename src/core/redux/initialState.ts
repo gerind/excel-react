@@ -4,6 +4,7 @@ export default function initialState(): StateType {
   const currentState = {}
   return Object.assign(
     {
+      title: 'Новая таблица',
       resize: {
         row: {}, // index: height
         column: {} // index: width

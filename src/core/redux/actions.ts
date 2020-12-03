@@ -1,5 +1,12 @@
-import { ActionType, changeStyleType, changeTextType, resizeTableType, selectCellType } from './stateInterface'
-import { CHANGE_STYLE, CHANGE_TEXT, RESIZE, SELECT_CELL } from './types'
+import { ActionType, changeStyleType, changeTextType, changeTitleType, resizeTableType, selectCellType } from './stateInterface'
+import { CHANGE_STYLE, CHANGE_TEXT, CHANGE_TITLE, RESIZE, SELECT_CELL } from './types'
+
+export function changeTitle(payload: changeTitleType): ActionType {
+  return {
+    type: CHANGE_TITLE,
+    payload
+  }
+}
 
 export function resizeTable(payload: resizeTableType): ActionType {
   return {

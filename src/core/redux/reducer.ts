@@ -2,7 +2,7 @@ import { columnMinWidth, columnWidth, rowHeight, rowMinHeight, TABLE_HEIGHT, TAB
 import { idToCell, stateContainer } from '../utils'
 import initialState from './initialState'
 import { ActionType, changeStyleType, changeTextType, resizeTableType, selectCellType, StateType } from './stateInterface'
-import { CHANGE_STYLE, CHANGE_TEXT, RESIZE, SELECT_CELL } from './types'
+import { CHANGE_STYLE, CHANGE_TEXT, CHANGE_TITLE, RESIZE, SELECT_CELL } from './types'
 
 const reducer = (prevState: StateType, action: ActionType): StateType => {
   const state = {...prevState}
@@ -10,8 +10,14 @@ const reducer = (prevState: StateType, action: ActionType): StateType => {
   let cont = null,
       id = null,
       style = null,
-      text = null
+      text = null,
+      title = null
   switch (action.type) {
+    case CHANGE_TITLE:
+      title = typeof payload === 'string' ? payload : payload.title
+      state.title = title
+      return state
+
     case RESIZE:
       const {side, index, delta} = payload as resizeTableType
       cont = stateContainer(state, 'resize', side)
