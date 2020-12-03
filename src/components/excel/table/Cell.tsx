@@ -11,13 +11,13 @@ interface CellProps {
 }
 
 class Cell extends React.PureComponent<CellProps> {
-  static contextType = TableContext
-  public context: React.ContextType<typeof TableContext>
+  public static readonly contextType = TableContext
+  public readonly context: React.ContextType<typeof TableContext>
 
   private readonly thisCellRef = React.createRef<HTMLDivElement>()
   private readonly handler = keyboardSelectionHandler(this.props.rowIndex, this.props.colIndex, this.context.dispatch)
 
-  public state = {
+  public readonly state = {
     selected: this.context.initial.nowSelected === cellToId(this.props.rowIndex, this.props.colIndex) ? 'selected' : '',
     currentText: '',
     styles: {
@@ -88,7 +88,7 @@ class Cell extends React.PureComponent<CellProps> {
         onMouseDown={() => {
           this.context.dispatch(selectCell(cellToId(this.props.rowIndex, this.props.colIndex)))
         }}
-        onKeyDown={ this.handler }
+        onKeyDown={ e => this.handler(e) }
         onInput={e => {
           this.context.dispatch(changeText(getInnerText(e.target)))
         }}

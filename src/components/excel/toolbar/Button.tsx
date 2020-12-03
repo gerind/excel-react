@@ -2,6 +2,7 @@ import React, { memo } from 'react'
 import { ToolbarItem } from './toolbar.model'
 
 interface ButtonProps extends ToolbarItem {
+  icon: string
   toggle: Function
 }
 

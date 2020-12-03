@@ -1,20 +1,29 @@
 import React, { memo, useCallback, useReducer, useRef } from 'react'
 import { preventDefault, usePreventSelectStart } from '../../../core/utils'
 import Button from './Button'
-import { getModel, ToolbarItem } from './toolbar.model'
+import { getModel, ToolbarModel } from './toolbar.model'
 import _ from 'lodash'
+import { useSelector } from 'react-redux'
+import { StateType } from '../../../core/redux/stateInterface'
 
-const reducer = (state: ToolbarItem[]): ToolbarItem[] => [...state]
+const reducer = (state: ToolbarModel, action?: ToolbarModel): ToolbarModel => {
+  if (action) {
+    return {...action}
+  }
+  return {...state}
+}
 
 const Toolbar: React.FC = () => {
 
   const rootRef = useRef<HTMLDivElement>(null)
   usePreventSelectStart(rootRef)
 
-  const [state, changeState] = useReducer(reducer, null, () => getModel())
+  const styles = useSelector((state: StateType) => state.style[state.selected])
 
-  const toggle = useCallback((icon) => {
-    const but = _.find(state, {icon})
+  const [state, changeState] = useReducer(reducer, null, () => getModel(styles))
+
+  const toggle = useCallback((icon: string) => {
+    const but = state[icon]
     but.active = !but.active
     let styles = {...but.styles}
     if (!but.active && !but.group) {
@@ -32,11 +41,11 @@ const Toolbar: React.FC = () => {
       onMouseDown={preventDefault}
     >
       {
-        state.map((but, ind) => (
+        Object.entries(state).map(([icon, but]) => (
           <Button
-            key={ind}
+            key={icon}
             active={but.active}
-            icon={but.icon}
+            icon={icon}
             styles={but.styles}
             toggle={toggle}
           />

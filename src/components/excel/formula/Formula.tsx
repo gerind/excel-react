@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { changeText } from '../../../core/redux/actions'
 import { StateType } from '../../../core/redux/stateInterface'

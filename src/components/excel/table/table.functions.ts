@@ -15,7 +15,7 @@ export function useSelectorChanges(cellsRef: MutableRefObject<CellsRefType>, now
 
 }
 
-export function useReselectCell(cellsRef: MutableRefObject<any>): string {
+export function useReselectCell(cellsRef: MutableRefObject<CellsRefType>): string {
   const nowSelected = useSelector((state: StateType) => state.selected)
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export function useReselectCell(cellsRef: MutableRefObject<any>): string {
   return nowSelected
 }
 
-export function useColumnResize(cellsRef: MutableRefObject<any>, rowCount: number) {
+export function useColumnResize(cellsRef: MutableRefObject<CellsRefType>, rowCount: number) {
   const prevColumnResize = useRef(null),
       columnResize = useSelector((state: StateType) => state.resize.column)
 
