@@ -5,6 +5,7 @@ export interface ToolbarItem {
   styles: {
     [key: string]: string | number
   }
+  group?: boolean
 }
 
 export function getModel(): ToolbarItem[] {
@@ -14,21 +15,24 @@ export function getModel(): ToolbarItem[] {
       active: false,
       styles: {
         justifyContent: 'flex-start'
-      }
+      },
+      group: true
     },
     {
       icon: 'format_align_center',
       active: false,
       styles: {
         justifyContent: 'center'
-      }
+      },
+      group: true
     },
     {
       icon: 'format_align_right',
       active: false,
       styles: {
         justifyContent: 'flex-end'
-      }
+      },
+      group: true
     },
     {
       icon: 'format_bold',

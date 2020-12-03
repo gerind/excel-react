@@ -17,10 +17,10 @@ const Toolbar: React.FC = () => {
     const but = _.find(state, {icon})
     but.active = !but.active
     let styles = {...but.styles}
-    if (!but.active) {
+    if (!but.active && !but.group) {
       Object.keys(styles).forEach(key => styles[key] = '')
     }
-    emitter.emit('toolbar:change', {styles} )
+    //emitter.emit('toolbar:change', {styles} )
     
     changeState()
   }, [state])

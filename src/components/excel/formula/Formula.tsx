@@ -1,17 +1,24 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { changeText } from '../../../core/redux/actions'
+import { StateType } from '../../../core/redux/stateInterface'
 import { getInnerText } from '../../../core/utils'
 
 const Formula: React.FC = () => {
 
-  const [currentText, changeCurrentText] = useState('')
+  const dispatch = useDispatch()
 
-  const formulaRef = useRef(null)
+  const formulaRef = useRef<HTMLInputElement>(null)
+  //const currentText = useRef<string>('')
 
-  useEffect(() => {
-    const selectOrInputHandler = ({target}) => changeCurrentText(getInnerText(target))
-    emitter.on('table:select', selectOrInputHandler)
-    emitter.on('table:input', selectOrInputHandler)
-  }, [])
+  const nowSelected = useSelector((state: StateType) => state.selected)
+  const stateText = useSelector((state: StateType) => state.text)
+
+  console.log('formula render')
+  /*useEffect(() => {
+    currentText.current = stateText[nowSelected]
+  }, [nowSelected, stateText])*/
+  const currentText = stateText[nowSelected] ?? ''
 
   return (
     <div
@@ -30,9 +37,7 @@ const Formula: React.FC = () => {
           }
         }}
         onChange={e => {
-          const target = e.target as HTMLInputElement
-          changeCurrentText(getInnerText(target))
-          emitter.emit('formula:input', formulaRef.current)
+          dispatch(changeText(getInnerText(e.target)))
         }}
       />
     </div>

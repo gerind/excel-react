@@ -1,9 +1,10 @@
 import React, { useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector, useStore } from 'react-redux'
 import { StateType } from '../../../core/redux/stateInterface'
+import Cell from './Cell'
 import FirstRow from './FirstRow'
 import Row from './Row'
-import { useColumnResize, useInitTable, useReselectCell } from './table.functions'
+import { useColumnResize, useSelectorChanges, useReselectCell } from './table.functions'
 import { TableContext } from './TableContext'
 
 interface TableProps {
@@ -11,16 +12,22 @@ interface TableProps {
   colCount: number
 }
 
-const Table: React.FC<TableProps> = ({rowCount, colCount}) => {
+export interface CellsRefType {
+  cell?: number[]
+  [key: number]: {[key: number]: Cell}
+}
+
+export const Table: React.FC<TableProps> = ({rowCount, colCount}) => {
 
   const rowResize = useSelector((state: StateType) => state.resize.row)
 
   const dispatch = useDispatch()
-  
-  const cellsRef = useRef<any>({})
+  const store = useStore()
+
+  const cellsRef = useRef<CellsRefType>({})
 
   const nowSelected = useReselectCell(cellsRef)
-  useInitTable(cellsRef)
+  useSelectorChanges(cellsRef, nowSelected)
   
   const columnResize = useColumnResize(cellsRef, rowCount)
 
@@ -59,5 +66,3 @@ const Table: React.FC<TableProps> = ({rowCount, colCount}) => {
     </TableContext.Provider>
   )
 }
-
-export default Table

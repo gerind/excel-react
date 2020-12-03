@@ -2,35 +2,17 @@ import { MutableRefObject, useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { StateType } from '../../../core/redux/stateInterface'
 import { getInnerText, idToCell } from '../../../core/utils'
+import { CellsRefType } from './Table'
 
-export function useInitTable(cellsRef: MutableRefObject<any>) {
+export function useSelectorChanges(cellsRef: MutableRefObject<CellsRefType>, nowSelected: string) {
+  
+  const [row, col] = idToCell(nowSelected)
+
+  const stateText = useSelector((state: StateType) => state.text)
   useEffect(() => {
+    cellsRef.current[row][col].changeText(stateText[nowSelected])
+  })
 
-    const onFormulaInput = target => {
-      const [row, col] = cellsRef.current.cell
-      cellsRef.current[row][col].changeText(getInnerText(target))
-    }
-
-    const onFormulaTab = () => {
-      const [row, col] = cellsRef.current.cell
-      cellsRef.current[row][col].focus()
-    }
-
-    const onToolbarChange = ({styles}) => {
-      const [row, col] = cellsRef.current.cell
-      cellsRef.current[row][col].changeStyle(styles)
-    }
-
-    emitter.on('formula:input', onFormulaInput)
-    emitter.on('formula:tab', onFormulaTab)
-    emitter.on('toolbar:change', onToolbarChange)
-
-    return () => {
-      emitter.off('formula:input', onFormulaInput)
-      emitter.off('formula:tab', onFormulaTab)
-      emitter.off('toolbar:change', onToolbarChange)
-    }
-  }, [])
 }
 
 export function useReselectCell(cellsRef: MutableRefObject<any>): string {
