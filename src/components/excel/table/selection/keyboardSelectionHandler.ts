@@ -1,6 +1,6 @@
 import React from 'react'
 import { Dispatch } from 'redux'
-import { selectCell } from '../../../../core/redux/actions'
+import { selectCell } from '../../../../core/redux/excel/excelActions'
 import { cellToId } from '../../../../core/utils'
 
  // Попробовать вынести в Cell.prototype

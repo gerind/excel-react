@@ -4,8 +4,8 @@ import Button from './Button'
 import { getModel, ToolbarModel } from './toolbar.model'
 import _ from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
-import { StateType } from '../../../core/redux/stateInterface'
-import { changeStyle } from '../../../core/redux/actions'
+import { StateType } from '../../../core/redux/excel/excelStateInterface'
+import { changeStyle } from '../../../core/redux/excel/excelActions'
 
 const Toolbar: React.FC = () => {
 
@@ -17,8 +17,8 @@ const Toolbar: React.FC = () => {
   const styles = useSelector((state: StateType) => state.style[state.selected] ?? {})
 
   const state = getModel(styles)
-
-  const toggle = useCallback((icon: string) => {
+  
+  function toggle(icon: string) {
     const but = state[icon]
     but.active = !but.active
     let styles = {...but.styles}
@@ -26,7 +26,7 @@ const Toolbar: React.FC = () => {
       Object.keys(styles).forEach(key => styles[key] = '')
     }
     dispatch(changeStyle(styles))
-  }, [state])
+  }
 
   return (
     <div

@@ -1,4 +1,4 @@
-import { resizeTable } from '../../../../core/redux/actions'
+import { resizeTable } from '../../../../core/redux/excel/excelActions'
 import { addEventListeners, debounce, preventDefault, removeEventListeners } from '../../../../core/utils'
 
 export function mouseDownHandlerResize(type: 'row' | 'column', index: number, setStyles: Function, dispatch: Function) {

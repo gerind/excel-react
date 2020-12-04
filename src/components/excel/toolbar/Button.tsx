@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 import { ToolbarItem } from './toolbar.model'
 
 interface ButtonProps extends ToolbarItem {
@@ -22,4 +22,4 @@ const Button: React.FC<ButtonProps> = ({active, icon, styles, toggle}) => {
   )
 }
 
-export default memo(Button)
+export default Button

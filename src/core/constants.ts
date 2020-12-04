@@ -13,3 +13,5 @@ export const columnMinWidth = 40
 
 export const TABLE_WIDTH = 52
 export const TABLE_HEIGHT = 52
+
+export const LOCALSTORAGE_DELAY = 300

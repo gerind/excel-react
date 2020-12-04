@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { changeTitle } from '../../../core/redux/actions'
-import { StateType } from '../../../core/redux/stateInterface'
+import { changeTitle } from '../../../core/redux/excel/excelActions'
+import { StateType } from '../../../core/redux/excel/excelStateInterface'
 import { getInnerText, usePreventSelectStart } from '../../../core/utils'
 
 const Header: React.FC = () => {

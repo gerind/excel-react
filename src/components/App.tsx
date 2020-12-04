@@ -7,7 +7,7 @@ const App: React.FC = () => {
   usePreventDragStart(document)
 
   return (
-    <Excel />
+    <Excel excelName='excel' />
   )
 }
 

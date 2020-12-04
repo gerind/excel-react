@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
-import { useDispatch, useSelector, useStore } from 'react-redux'
-import { StateType } from '../../../core/redux/stateInterface'
+import { useDispatch, useSelector } from 'react-redux'
+import { StateType } from '../../../core/redux/excel/excelStateInterface'
 import Cell from './Cell'
 import FirstRow from './FirstRow'
 import Row from './Row'
@@ -25,8 +25,11 @@ export const Table: React.FC<TableProps> = ({rowCount, colCount}) => {
 
   const cellsRef = useRef<CellsRefType>({})
 
+  const stateText = useSelector((state: StateType) => state.text)
+  const stateStyle = useSelector((state: StateType) => state.style)
+
   const nowSelected = useReselectCell(cellsRef)
-  useSelectorChanges(cellsRef, nowSelected)
+  useSelectorChanges(cellsRef, nowSelected, stateText, stateStyle)
   
   const columnResize = useColumnResize(cellsRef, rowCount)
 
@@ -36,6 +39,8 @@ export const Table: React.FC<TableProps> = ({rowCount, colCount}) => {
     initial: {
       rowResize,
       columnResize,
+      stateStyle,
+      stateText,
       nowSelected
     }
   })

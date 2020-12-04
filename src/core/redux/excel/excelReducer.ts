@@ -1,10 +1,9 @@
-import { columnMinWidth, columnWidth, rowHeight, rowMinHeight, TABLE_HEIGHT, TABLE_WIDTH } from '../constants'
-import { idToCell, stateContainer } from '../utils'
-import initialState from './initialState'
-import { ActionType, changeStyleType, changeTextType, resizeTableType, selectCellType, StateType } from './stateInterface'
-import { CHANGE_STYLE, CHANGE_TEXT, CHANGE_TITLE, RESIZE, SELECT_CELL } from './types'
+import { columnMinWidth, columnWidth, rowHeight, rowMinHeight, TABLE_HEIGHT, TABLE_WIDTH } from '../../constants'
+import { idToCell, stateContainer } from '../../utils'
+import { ActionType, resizeTableType, StateType } from './excelStateInterface'
+import { CHANGE_STYLE, CHANGE_TEXT, CHANGE_TITLE, RESIZE, SELECT_CELL } from './excelTypes'
 
-const reducer = (prevState: StateType, action: ActionType): StateType => {
+const excelReducer = (prevState: StateType, action: ActionType): StateType => {
   const state = {...prevState}
   const { payload } = action
   let cont = null,
@@ -67,9 +66,10 @@ const reducer = (prevState: StateType, action: ActionType): StateType => {
         return state
       }
       return prevState
+
     default:
-      return initialState()
+      return prevState
   }
 }
 
-export default reducer
+export default excelReducer

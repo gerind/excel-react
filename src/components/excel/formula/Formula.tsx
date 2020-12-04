@@ -1,8 +1,8 @@
 import React, { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { changeText } from '../../../core/redux/actions'
-import { StateType } from '../../../core/redux/stateInterface'
-import { getInnerText } from '../../../core/utils'
+import { changeText } from '../../../core/redux/excel/excelActions'
+import { StateType } from '../../../core/redux/excel/excelStateInterface'
+import { getInnerText, stateContainer } from '../../../core/utils'
 
 const Formula: React.FC = () => {
 
@@ -10,10 +10,7 @@ const Formula: React.FC = () => {
 
   const formulaRef = useRef<HTMLInputElement>(null)
 
-  const nowSelected = useSelector((state: StateType) => state.selected)
-  const stateText = useSelector((state: StateType) => state.text)
-
-  const currentText = stateText[nowSelected] ?? ''
+  const currentText = useSelector((state: StateType) => state.text[state.selected] ?? '')
 
   return (
     <div

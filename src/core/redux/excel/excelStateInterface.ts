@@ -1,4 +1,4 @@
-import { StyleObject } from '../scriptTypes'
+import { StyleObject } from '../../scriptTypes'
 
 
 export interface ActionType {

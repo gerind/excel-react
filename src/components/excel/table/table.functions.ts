@@ -1,23 +1,22 @@
 import { MutableRefObject, useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
-import { StateType } from '../../../core/redux/stateInterface'
-import { getInnerText, idToCell } from '../../../core/utils'
+import { StateType } from '../../../core/redux/excel/excelStateInterface'
+import { StyleObject } from '../../../core/scriptTypes'
+import { idToCell } from '../../../core/utils'
 import { CellsRefType } from './Table'
 
-export function useSelectorChanges(cellsRef: MutableRefObject<CellsRefType>, nowSelected: string) {
+export function useSelectorChanges(cellsRef: MutableRefObject<CellsRefType>, nowSelected: string, stateText: {[key: string]: string}, stateStyle: {[key: string]: StyleObject}) {
   
   const [row, col] = idToCell(nowSelected)
 
-  const stateText = useSelector((state: StateType) => state.text)
   useEffect(() => {
     cellsRef.current[row][col].changeText(stateText[nowSelected])
   })
 
-  const styles = useSelector((state: StateType) => state.style[nowSelected])
+  const nowStyle = stateStyle[nowSelected]
   useEffect(() => {
-    cellsRef.current[row][col].changeStyle(styles)
-  }, [styles])
-
+    cellsRef.current[row][col].changeStyle(nowStyle)
+  }, [nowStyle])
 }
 
 export function useReselectCell(cellsRef: MutableRefObject<CellsRefType>): string {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { changeText, selectCell } from '../../../core/redux/actions'
+import { changeText, selectCell } from '../../../core/redux/excel/excelActions'
 import { StyleObject } from '../../../core/scriptTypes'
 import { cellToId, getInnerText, replaceCaret } from '../../../core/utils'
 import keyboardSelectionHandler from './selection/keyboardSelectionHandler'
@@ -16,13 +16,13 @@ class Cell extends React.PureComponent<CellProps> {
 
   private readonly thisCellRef = React.createRef<HTMLDivElement>()
   private readonly handler = keyboardSelectionHandler(this.props.rowIndex, this.props.colIndex, this.context.dispatch)
+  private readonly cellId = cellToId(this.props.rowIndex, this.props.colIndex)
 
   public readonly state = {
-    selected: this.context.initial.nowSelected === cellToId(this.props.rowIndex, this.props.colIndex) ? 'selected' : '',
-    currentText: '',
-    styles: {
-      width: this.context.initial.columnResize[this.props.colIndex] + 'px'
-    }
+    selected: this.context.initial.nowSelected === this.cellId ? 'selected' : '',
+    currentText: this.context.initial.stateText[this.cellId] ?? '',
+    styles: this.context.initial.stateStyle[this.cellId] ?? {},
+    width: this.context.initial.columnResize[this.props.colIndex]
   }
 
   constructor(props: CellProps, context: typeof TableContext) {
@@ -58,19 +58,13 @@ class Cell extends React.PureComponent<CellProps> {
 
   changeStyle(styles: StyleObject) {
     if (styles !== this.state.styles) {
-      this.setState((state: any) => ({
-        styles: {
-          ...styles, width: state.styles.width
-        }
-      }))
+      this.setState({styles})
     }
   }
 
   changeWidth(newWidth: number) {
     this.setState((state: any) => ({
-      styles: {
-        ...state.styles, width: newWidth + 'px'
-      }
+      width: newWidth
     }))
   }
 
@@ -86,7 +80,7 @@ class Cell extends React.PureComponent<CellProps> {
         suppressContentEditableWarning={true}
         ref={this.thisCellRef}
         className={`cell ${this.state.selected}`}
-        style={this.state.styles}
+        style={{...this.state.styles, width: this.state.width + 'px'}}
         onMouseDown={() => {
           this.context.dispatch(selectCell(cellToId(this.props.rowIndex, this.props.colIndex)))
         }}

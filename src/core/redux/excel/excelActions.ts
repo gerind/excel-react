@@ -1,5 +1,5 @@
-import { ActionType, changeStyleType, changeTextType, changeTitleType, resizeTableType, selectCellType } from './stateInterface'
-import { CHANGE_STYLE, CHANGE_TEXT, CHANGE_TITLE, RESIZE, SELECT_CELL } from './types'
+import { ActionType, changeStyleType, changeTextType, changeTitleType, resizeTableType, selectCellType } from './excelStateInterface'
+import { CHANGE_STYLE, CHANGE_TEXT, CHANGE_TITLE, RESIZE, SELECT_CELL } from './excelTypes'
 
 export function changeTitle(payload: changeTitleType): ActionType {
   return {
