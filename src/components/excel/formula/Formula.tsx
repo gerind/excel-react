@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { changeText } from '../../../core/redux/excel/excelActions'
 import { StateType } from '../../../core/redux/excel/excelStateInterface'
-import { getInnerText, stateContainer } from '../../../core/utils'
+import { getInnerText } from '../../../core/utils'
 
 const Formula: React.FC = () => {
 

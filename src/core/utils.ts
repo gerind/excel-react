@@ -1,6 +1,5 @@
-import React, { MutableRefObject, useEffect, useRef } from 'react'
+import React, { MutableRefObject, useEffect } from 'react'
 import { CODES } from './constants'
-import _ from 'lodash'
 
 export function preventDefault(event: Event | React.BaseSyntheticEvent): void {
   event.preventDefault()
@@ -90,14 +89,4 @@ export function cellToId(row: number, col: number): string {
 
 export function idToCell(id: string): number[] {
   return id.split(':').map(x => +x)
-}
-
-export function useFromSecondRender(cb: Function, deps?: any[]) {
-  const notThisFirst = useRef<boolean>(false)
-  let lastDeps = null
-  useEffect(() => { notThisFirst.current = true }, [])
-  if (notThisFirst.current && ((typeof deps === 'undefined') || !_.isEqual(deps, lastDeps))) {
-    cb()
-    lastDeps = deps
-  }
 }
