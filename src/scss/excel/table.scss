@@ -33,6 +33,8 @@
   }
   & .cell {
     font-size: 15px;
+    justify-content: flex-start;
+    align-items: flex-start;
     white-space: nowrap;
     &.selected {
       outline: 2px solid blue;
