@@ -45,11 +45,32 @@ export function getModel(styles: StyleObject): ToolbarModel {
         fontStyle: 'italic'
       }
     },
-    'format_underlined':{
+    'format_underlined': {
       active: styles.textDecoration === 'underline',
       styles: {
         textDecoration: 'underline'
       }
+    },
+    'vertical_align_top': {
+      active: !styles.alignItems,
+      styles: {
+        alignItems: ''
+      },
+      group: true
+    },
+    'vertical_align_center': {
+      active: styles.alignItems === 'center',
+      styles: {
+        alignItems: 'center'
+      },
+      group: true
+    },
+    'vertical_align_bottom': {
+      active: styles.alignItems === 'flex-end',
+      styles: {
+        alignItems: 'flex-end'
+      },
+      group: true
     }
   }
 }
