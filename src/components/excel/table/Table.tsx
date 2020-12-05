@@ -4,8 +4,17 @@ import { StateType } from '../../../core/redux/excel/excelStateInterface'
 import Cell from './Cell'
 import FirstRow from './FirstRow'
 import Row from './Row'
-import { useColumnResize, useSelectorChanges, useReselectCell } from './table.functions'
+import { useColumnResize, useTableHooks } from './table.functions'
 import { TableContext } from './TableContext'
+
+function shallowEq(left: any, right: any) {
+  for (let key in right) {
+    if (right[key] !== left[key]) {
+      return false
+    }
+  }
+  return true
+}
 
 interface TableProps {
   rowCount: number
@@ -19,19 +28,20 @@ export interface CellsRefType {
 
 export const Table: React.FC<TableProps> = ({rowCount, colCount}) => {
 
-  const rowResize = useSelector((state: StateType) => state.resize.row)
-
   const dispatch = useDispatch()
-
+  
   const cellsRef = useRef<CellsRefType>({})
 
-  const stateText = useSelector((state: StateType) => state.text)
-  const stateStyle = useSelector((state: StateType) => state.style)
+  const {rowResize, columnResize, stateText, stateStyle, nowSelected} = useSelector((state: StateType) => ({
+    rowResize: state.resize.row,
+    columnResize: state.resize.column,
+    stateText: state.text,
+    stateStyle: state.style,
+    nowSelected: state.selected
+  }), shallowEq)
 
-  const nowSelected = useReselectCell(cellsRef)
-  useSelectorChanges(cellsRef, nowSelected, stateText, stateStyle)
-  
-  const columnResize = useColumnResize(cellsRef, rowCount)
+  useTableHooks(cellsRef, stateText, stateStyle, nowSelected)
+  useColumnResize(cellsRef, rowCount, columnResize)
 
   const contextRef = useRef({
     cellsRef: cellsRef.current,

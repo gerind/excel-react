@@ -15,7 +15,6 @@ class Cell extends React.PureComponent<CellProps> {
   public readonly context: React.ContextType<typeof TableContext>
 
   private readonly thisCellRef = React.createRef<HTMLDivElement>()
-  private readonly handler = keyboardSelectionHandler(this.props.rowIndex, this.props.colIndex, this.context.dispatch)
   private readonly cellId = cellToId(this.props.rowIndex, this.props.colIndex)
 
   public readonly state = {
@@ -24,6 +23,8 @@ class Cell extends React.PureComponent<CellProps> {
     styles: this.context.initial.stateStyle[this.cellId] ?? {},
     width: this.context.initial.columnResize[this.props.colIndex]
   }
+
+  public keyDownHandler: (event: React.KeyboardEvent) => void
 
   constructor(props: CellProps, context: typeof TableContext) {
     super(props, context)
@@ -84,7 +85,7 @@ class Cell extends React.PureComponent<CellProps> {
         onMouseDown={() => {
           this.context.dispatch(selectCell(cellToId(this.props.rowIndex, this.props.colIndex)))
         }}
-        onKeyDown={ e => this.handler(e) }
+        onKeyDown={ e => this.keyDownHandler(e) }
         onInput={e => {
           this.context.dispatch(changeText(getInnerText(e.target)))
         }}
@@ -97,5 +98,7 @@ class Cell extends React.PureComponent<CellProps> {
     )
   }
 }
+
+Cell.prototype.keyDownHandler = keyboardSelectionHandler()
 
 export default Cell

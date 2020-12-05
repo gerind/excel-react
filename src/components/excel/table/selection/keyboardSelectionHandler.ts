@@ -3,9 +3,14 @@ import { Dispatch } from 'redux'
 import { selectCell } from '../../../../core/redux/excel/excelActions'
 import { cellToId } from '../../../../core/utils'
 
- // Попробовать вынести в Cell.prototype
-function keyboardSelectionHandler(row: number, col: number, dispatch: Dispatch) {
+function keyboardSelectionHandler() {
+  
   return function(event: React.KeyboardEvent) {
+    
+    const row = this.props.rowIndex
+    const col = this.props.colIndex
+    const dispatch = this.context.dispatch
+
     let nextRow = row, nextCol = col
     if (event.key === 'Tab') {
       event.preventDefault()

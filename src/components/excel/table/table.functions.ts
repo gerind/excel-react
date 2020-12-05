@@ -1,26 +1,21 @@
 import { MutableRefObject, useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { StateType } from '../../../core/redux/excel/excelStateInterface'
-import { StyleObject } from '../../../core/scriptTypes'
 import { idToCell } from '../../../core/utils'
 import { CellsRefType } from './Table'
 
-export function useSelectorChanges(cellsRef: MutableRefObject<CellsRefType>, nowSelected: string, stateText: {[key: string]: string}, stateStyle: {[key: string]: StyleObject}) {
-  
+export function useTableHooks(cellsRef: MutableRefObject<CellsRefType>, stateText, stateStyle, nowSelected: string) {
+  const nowStyle = stateStyle[nowSelected]
+
   const [row, col] = idToCell(nowSelected)
 
   useEffect(() => {
     cellsRef.current[row][col].changeText(stateText[nowSelected])
   })
 
-  const nowStyle = stateStyle[nowSelected]
   useEffect(() => {
     cellsRef.current[row][col].changeStyle(nowStyle)
   }, [nowStyle])
-}
-
-export function useReselectCell(cellsRef: MutableRefObject<CellsRefType>): string {
-  const nowSelected = useSelector((state: StateType) => state.selected)
 
   useEffect(() => {
     if (cellsRef.current.cell) {
@@ -31,13 +26,10 @@ export function useReselectCell(cellsRef: MutableRefObject<CellsRefType>): strin
     cellsRef.current.cell = [row, col]
     cellsRef.current[row][col].select()
   }, [nowSelected])
-  
-  return nowSelected
 }
 
-export function useColumnResize(cellsRef: MutableRefObject<CellsRefType>, rowCount: number) {
-  const prevColumnResize = useRef(null),
-      columnResize = useSelector((state: StateType) => state.resize.column)
+export function useColumnResize(cellsRef: MutableRefObject<CellsRefType>, rowCount: number, columnResize) {
+  const prevColumnResize = useRef(null)
 
   useEffect(() => {
     if (prevColumnResize.current !== null) {
@@ -52,6 +44,4 @@ export function useColumnResize(cellsRef: MutableRefObject<CellsRefType>, rowCou
     }
     prevColumnResize.current = columnResize
   }, [columnResize])
-
-  return columnResize
 }
