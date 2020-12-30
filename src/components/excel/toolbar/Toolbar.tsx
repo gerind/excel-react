@@ -1,5 +1,5 @@
 import React, { memo, useRef } from 'react'
-import { generateArrayFromObject, preventDefault, usePreventSelectStart } from '../../../core/utils'
+import { mapObject, preventDefault, usePreventSelectStart } from '../../../core/utils'
 import Button from './Button'
 import { getModel } from './toolbar.model'
 import { useDispatch, useSelector } from 'react-redux'
@@ -36,7 +36,7 @@ const Toolbar: React.FC = () => {
       onMouseDown={preventDefault}
     >
       {
-        generateArrayFromObject((icon, but) => (
+        mapObject((icon, but) => (
           <Button
             key={icon}
             active={but.active}

@@ -111,7 +111,7 @@ export function generateArray<T>(callback: (index: number) => T, length: number)
   return array
 }
 
-export function generateArrayFromObject<T, K>(callback: (key: string, value: K, object: ObjectType<K>) => T, object: ObjectType<K>): T[] {
+export function mapObject<T, K>(callback: (key: string, value: K, object: ObjectType<K>) => T, object: ObjectType<K>): T[] {
   const array: T[] = []
   for (let key in object) {
     if (object.hasOwnProperty(key)) {
