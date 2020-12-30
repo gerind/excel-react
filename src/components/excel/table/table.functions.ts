@@ -1,6 +1,4 @@
 import { MutableRefObject, useEffect, useRef } from 'react'
-import { useSelector } from 'react-redux'
-import { StateType } from '../../../core/redux/excel/excelStateInterface'
 import { idToCell } from '../../../core/utils'
 import { CellsRefType } from './Table'
 
@@ -34,13 +32,14 @@ export function useColumnResize(cellsRef: MutableRefObject<CellsRefType>, rowCou
   useEffect(() => {
     if (prevColumnResize.current !== null) {
       const prev = prevColumnResize.current
-      Object.entries(columnResize).forEach(([key, value]) => {
+      for (let key in columnResize) {
+        const value = columnResize[key]
         if (prev[key] !== value) {
           for (let i = 0; i < rowCount; ++i) {
             cellsRef.current[i][key].changeWidth(value)
           }
         }
-      })
+      }
     }
     prevColumnResize.current = columnResize
   }, [columnResize])

@@ -1,4 +1,4 @@
-import { StyleObject } from '../../../core/scriptTypes'
+import { ObjectType, StyleObject } from '../../../core/types'
 
 export interface ToolbarItem {
   active: boolean
@@ -6,9 +6,7 @@ export interface ToolbarItem {
   group?: boolean
 }
 
-export interface ToolbarModel {
-  [key: string]: ToolbarItem
-}
+export type ToolbarModel = ObjectType<ToolbarItem>
 
 export function getModel(styles: StyleObject): ToolbarModel {
   return {

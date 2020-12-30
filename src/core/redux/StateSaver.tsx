@@ -5,18 +5,22 @@ import { debounce } from '../utils'
 
 interface StateSaverProps {
   name: string
-  fn: Function
 }
 
 const handler = debounce((name: string, state: any) => {
-  localStorage.setItem(name, JSON.stringify(state))
+  try {
+    localStorage.setItem(name, JSON.stringify(state))
+  }
+  catch {
+    console.error('Error while saving state to localStorage')
+  }
 }, LOCALSTORAGE_DELAY)
 
-const StateSaver: React.FC<StateSaverProps> = ({name, fn}) => {
+const StateSaver: React.FC<StateSaverProps> = ({name}) => {
   
   const state = useSelector((state: any) => state)
   
-  handler(name, fn(state))
+  handler(name, state.extract())
 
   return (
     <React.Fragment />

@@ -1,4 +1,4 @@
-import { resizeTable } from '../../../../core/redux/excel/excelActions'
+import { resizeTable } from '../../../../core/redux/actions'
 import { addEventListeners, debounce, preventDefault, removeEventListeners } from '../../../../core/utils'
 
 export function mouseDownHandlerResize(type: 'row' | 'column', index: number, setStyles: Function, dispatch: Function) {
@@ -16,7 +16,7 @@ export function mouseDownHandlerResize(type: 'row' | 'column', index: number, se
             ? `translate(${newCoord - prevCoord}px, 0)`
             : `translate(0, ${newCoord - prevCoord}px)`
       })
-    }, 15)
+    })
     const mouseUpHandler = (upEvent: MouseEvent) => {
       document.body.style.cursor = ''
       const newCoord = upEvent[coordName]

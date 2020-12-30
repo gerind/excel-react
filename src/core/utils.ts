@@ -1,7 +1,8 @@
 import React, { MutableRefObject, useEffect } from 'react'
 import { CODES } from './constants'
+import { ObjectType } from './types'
 
-export function preventDefault(event: Event | React.BaseSyntheticEvent): void {
+export function preventDefault(event: Event | React.BaseSyntheticEvent) {
   event.preventDefault()
 }
 
@@ -38,8 +39,19 @@ export function getColumnName(colIndex: number): string {
   )
 }
 
-export function debounce<T extends Function>(fn: T, ms: number): T {
+export function debounce<T extends Function>(fn: T, ms?: number): T {
   let canBeCalled = true
+  if (typeof ms !== 'number') {
+    return function(...args: any[]) {
+      if (canBeCalled) {
+        fn(...args)
+        requestAnimationFrame(() => {
+          canBeCalled = true
+        })
+        canBeCalled = false
+      }
+    } as unknown as T
+  }
   return function(...args: any[]) {
     if (canBeCalled) {
       fn(...args)
@@ -51,15 +63,15 @@ export function debounce<T extends Function>(fn: T, ms: number): T {
   } as unknown as T
 }
 
-export function addEventListeners(element: EventTarget, listeners: {[key: string]: (event?: Event) => any}) {
+export function addEventListeners(element: EventTarget, listeners: ObjectType<EventListenerOrEventListenerObject>) {
   Object.entries(listeners).forEach(entry => element.addEventListener(...entry))
 }
 
-export function removeEventListeners(element: EventTarget, listeners: {[key: string]: (event?: Event) => any}) {
+export function removeEventListeners(element: EventTarget, listeners: ObjectType<EventListenerOrEventListenerObject>) {
   Object.entries(listeners).forEach(entry => element.removeEventListener(...entry))
 }
 
-export function stateContainer(obj: {[key: string]: any}, ...props: (string | number)[] ) {
+export function stateContainer(obj: ObjectType, ...props: (string | number)[] ) {
   return props.reduce((acc, prop) => {
     acc[prop] = {...acc[prop]}
     return acc[prop]
@@ -89,4 +101,12 @@ export function cellToId(row: number, col: number): string {
 
 export function idToCell(id: string): number[] {
   return id.split(':').map(x => +x)
+}
+
+export function generateArray<T>(callback: (index: number) => T, length: number): T[] {
+  const array: T[] = new Array(length)
+  for (let i = 0; i < length; ++i) {
+    array[i] = callback(i)
+  }
+  return array
 }

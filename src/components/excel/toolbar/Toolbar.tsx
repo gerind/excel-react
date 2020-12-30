@@ -3,8 +3,8 @@ import { preventDefault, usePreventSelectStart } from '../../../core/utils'
 import Button from './Button'
 import { getModel } from './toolbar.model'
 import { useDispatch, useSelector } from 'react-redux'
-import { StateType } from '../../../core/redux/excel/excelStateInterface'
-import { changeStyle } from '../../../core/redux/excel/excelActions'
+import { StateType } from '../../../core/redux/reducer'
+import { changeStyle } from '../../../core/redux/actions'
 
 const Toolbar: React.FC = () => {
 
@@ -22,7 +22,9 @@ const Toolbar: React.FC = () => {
     but.active = !but.active
     let styles = {...but.styles}
     if (!but.active && !but.group) {
-      Object.keys(styles).forEach(key => styles[key] = '')
+      for (let key in styles) {
+        styles[key] = ''
+      }
     }
     dispatch(changeStyle(styles))
   }

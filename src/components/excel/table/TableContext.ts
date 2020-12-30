@@ -1,15 +1,18 @@
 import React from 'react'
 import { Dispatch } from 'redux'
-import { StyleObject } from '../../../core/scriptTypes'
+import { ObjectNumberType, ObjectType, StyleObject } from '../../../core/types'
+import { CellsRefType } from './Table'
 
-export const TableContext = React.createContext<{
-  cellsRef: any
+export interface TableContextType {
+  cellsRef: CellsRefType
   dispatch: Dispatch<any>
   initial: {
-    rowResize: {[key: number]: number}
-    columnResize: {[key: number]: number}
-    stateStyle: {[key: string]: StyleObject}
-    stateText: {[key: string]: string}
+    rowResize: ObjectNumberType<number>
+    columnResize: ObjectNumberType<number>
+    stateStyle: ObjectType<StyleObject>
+    stateText: ObjectType<string>
     nowSelected: string
   }
-}>(null)
+}
+
+export const TableContext = React.createContext<TableContextType>(null)

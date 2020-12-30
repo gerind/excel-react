@@ -1,6 +1,6 @@
 import React from 'react'
 import { Dispatch } from 'redux'
-import { selectCell } from '../../../../core/redux/excel/excelActions'
+import { selectCell } from '../../../../core/redux/actions'
 import { cellToId } from '../../../../core/utils'
 
 function keyboardSelectionHandler() {

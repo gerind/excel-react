@@ -1,9 +1,5 @@
-import React, { memo, useMemo } from 'react'
-import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import React, { memo } from 'react'
 import { TABLE_HEIGHT, TABLE_WIDTH } from '../../core/constants'
-import excelReducer from '../../core/redux/excel/excelReducer'
-import { initialExcelState, saveExcelState } from '../../core/redux/excel/initialExcelState'
 import StateSaver from '../../core/redux/StateSaver'
 import Formula from './formula/Formula'
 import Header from './header/Header'
@@ -16,13 +12,10 @@ interface ExcelProps {
 
 const Excel: React.FC<ExcelProps> = ({excelName}) => {
 
-  const store = useMemo(() => {
-    return createStore(excelReducer, initialExcelState(excelName))
-  }, [])
 
   return (
-    <Provider store={store}>
-      <StateSaver name={excelName} fn={saveExcelState} />
+    <>
+      <StateSaver name={excelName} />
       <div className="excel" spellCheck={false} >
         <Header />
         <Toolbar />
@@ -32,7 +25,7 @@ const Excel: React.FC<ExcelProps> = ({excelName}) => {
           colCount={TABLE_WIDTH}
         />
       </div>
-    </Provider>
+    </>
   )
 }
 

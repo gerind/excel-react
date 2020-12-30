@@ -1,6 +1,6 @@
 import React from 'react'
-import { changeText, selectCell } from '../../../core/redux/excel/excelActions'
-import { StyleObject } from '../../../core/scriptTypes'
+import { changeText, selectCell } from '../../../core/redux/actions'
+import { StyleObject } from '../../../core/types'
 import { cellToId, getInnerText, replaceCaret } from '../../../core/utils'
 import keyboardSelectionHandler from './selection/keyboardSelectionHandler'
 import { TableContext } from './TableContext'
@@ -64,9 +64,9 @@ class Cell extends React.PureComponent<CellProps> {
   }
 
   changeWidth(newWidth: number) {
-    this.setState((state: any) => ({
+    this.setState({
       width: newWidth
-    }))
+    })
   }
 
   focus() {

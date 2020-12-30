@@ -1,15 +1,16 @@
+import { ObjectType } from './types'
 
-export const CODES: {[key: string]: number} = {
+export const CODES: ObjectType<number> = {
   A: 65,
   Z: 90,
   SIZE: 26
 }
 
-export const rowHeight = 26
-export const columnWidth = 120
+export const ROW_HEIGHT = 26
+export const COLUMN_WIDTH = 120
 
-export const rowMinHeight = 20
-export const columnMinWidth = 40
+export const ROW_MIN_HEIGHT = 20
+export const COLUMN_MIN_WIDTH = 40
 
 export const TABLE_WIDTH = 52
 export const TABLE_HEIGHT = 52

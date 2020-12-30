@@ -1,10 +1,11 @@
 import React, { memo } from 'react'
+import { ObjectNumberType } from '../../../core/types'
 import { getColumnName } from '../../../core/utils'
 import Resizer from './resize/Resizer'
 
 interface FirstRowProps {
   colCount: number
-  columnResize: {[key: number]: number}
+  columnResize: ObjectNumberType<number>
 }
 
 const FirstRow: React.FC<FirstRowProps> = ({colCount, columnResize}) => {

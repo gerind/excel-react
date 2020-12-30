@@ -1,13 +1,15 @@
-import React, { useRef } from 'react'
+import React, { useMemo, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { StateType } from '../../../core/redux/excel/excelStateInterface'
+import { StateType } from '../../../core/redux/reducer'
+import { ObjectNumberType, ObjectType } from '../../../core/types'
+import { generateArray } from '../../../core/utils'
 import Cell from './Cell'
 import FirstRow from './FirstRow'
 import Row from './Row'
 import { useColumnResize, useTableHooks } from './table.functions'
-import { TableContext } from './TableContext'
+import { TableContext, TableContextType } from './TableContext'
 
-function shallowEq(left: any, right: any) {
+function shallowEq(left: ObjectType, right: ObjectType) {
   for (let key in right) {
     if (right[key] !== left[key]) {
       return false
@@ -21,7 +23,7 @@ interface TableProps {
   colCount: number
 }
 
-export interface CellsRefType {
+export type CellsRefType = {
   cell?: number[]
   [key: number]: {[key: number]: Cell}
 }
@@ -43,7 +45,7 @@ export const Table: React.FC<TableProps> = ({rowCount, colCount}) => {
   useTableHooks(cellsRef, stateText, stateStyle, nowSelected)
   useColumnResize(cellsRef, rowCount, columnResize)
 
-  const contextRef = useRef({
+  const contextRef = useRef<TableContextType>({
     cellsRef: cellsRef.current,
     dispatch,
     initial: {
@@ -55,6 +57,15 @@ export const Table: React.FC<TableProps> = ({rowCount, colCount}) => {
     }
   })
 
+  const rows = useMemo(() => generateArray(rowIndex => (
+    <Row
+      rowIndex={rowIndex}
+      colCount={colCount}
+      key={rowIndex}
+      rowResize={rowResize[rowIndex]}
+    />
+  ), rowCount), [colCount, rowCount])
+
   return (
     <TableContext.Provider
       value={contextRef.current}>
@@ -65,16 +76,7 @@ export const Table: React.FC<TableProps> = ({rowCount, colCount}) => {
           columnResize={columnResize}
         />
         {
-          new Array(rowCount)
-              .fill(null)
-              .map((_, rowIndex) => (
-                <Row
-                  rowIndex={rowIndex}
-                  colCount={colCount}
-                  key={rowIndex}
-                  rowResize={rowResize[rowIndex]}
-                />
-              ))
+          rows
         }
       </div>
     </TableContext.Provider>
