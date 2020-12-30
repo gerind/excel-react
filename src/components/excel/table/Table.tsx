@@ -1,22 +1,12 @@
 import React, { useMemo, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { StateType } from '../../../core/redux/reducer'
-import { ObjectNumberType, ObjectType } from '../../../core/types'
-import { generateArray } from '../../../core/utils'
+import { generateArray, shallowEq } from '../../../core/utils'
 import Cell from './Cell'
 import FirstRow from './FirstRow'
 import Row from './Row'
 import { useColumnResize, useTableHooks } from './table.functions'
 import { TableContext, TableContextType } from './TableContext'
-
-function shallowEq(left: ObjectType, right: ObjectType) {
-  for (let key in right) {
-    if (right[key] !== left[key]) {
-      return false
-    }
-  }
-  return true
-}
 
 interface TableProps {
   rowCount: number

@@ -1,5 +1,5 @@
 import React, { memo, useRef } from 'react'
-import { mapObject, preventDefault, usePreventSelectStart } from '../../../core/utils'
+import { iterateObject, mapObject, preventDefault, usePreventSelectStart } from '../../../core/utils'
 import Button from './Button'
 import { getModel } from './toolbar.model'
 import { useDispatch, useSelector } from 'react-redux'
@@ -22,9 +22,7 @@ const Toolbar: React.FC = () => {
     but.active = !but.active
     let styles = {...but.styles}
     if (!but.active && !but.group) {
-      for (let key in styles) {
-        styles[key] = ''
-      }
+      iterateObject(key => styles[key] = '', styles)
     }
     dispatch(changeStyle(styles))
   }

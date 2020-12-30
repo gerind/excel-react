@@ -64,11 +64,11 @@ export function debounce<T extends Function>(fn: T, ms?: number): T {
 }
 
 export function addEventListeners(element: EventTarget, listeners: ObjectType<EventListenerOrEventListenerObject>) {
-  Object.entries(listeners).forEach(entry => element.addEventListener(...entry))
+  iterateObject((key, value) => element.addEventListener(key, value), listeners)
 }
 
 export function removeEventListeners(element: EventTarget, listeners: ObjectType<EventListenerOrEventListenerObject>) {
-  Object.entries(listeners).forEach(entry => element.removeEventListener(...entry))
+  iterateObject((key, value) => element.removeEventListener(key, value), listeners)
 }
 
 export function stateContainer(obj: ObjectType, ...props: (string | number)[] ) {
@@ -120,3 +120,26 @@ export function mapObject<T, K>(callback: (key: string, value: K, object: Object
   }
   return array
 }
+
+export function iterateObject<K>(callback: (key: string, value: K, object: ObjectType<K>) => any, object: ObjectType<K>): void {
+  for (let key in object) {
+    if (object.hasOwnProperty(key)) {
+      callback(key, object[key], object)
+    }
+  }
+}
+
+export function shallowEq(left: ObjectType, right: ObjectType): boolean {
+  for (let key in right) {
+    if (right.hasOwnProperty(key) && (!left.hasOwnProperty(key) || right[key] !== left[key])) {
+      return false
+    }
+  }
+  for (let key in left) {
+    if (left.hasOwnProperty(key) && (!right.hasOwnProperty(key) || left[key] !== right[key])) {
+      return false
+    }
+  }
+  return true
+}
+

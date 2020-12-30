@@ -1,4 +1,5 @@
-import React, { memo  } from 'react'
+import React, { memo, useMemo  } from 'react'
+import { generateArray } from '../../../core/utils'
 import Cell from './Cell'
 import Resizer from './resize/Resizer'
 
@@ -10,6 +11,14 @@ interface RowProps {
 
 const Row: React.FC<RowProps> = ({rowIndex, colCount, rowResize}) => {
 
+  const cells = useMemo(() => generateArray(colIndex => (
+    <Cell
+      key={colIndex}
+      rowIndex={rowIndex}
+      colIndex={colIndex}
+    />
+  ), colCount), [rowIndex, colCount])
+
   return (
     <div className="row" style={{height: rowResize + 'px'}}>
       <div className="info">
@@ -20,15 +29,7 @@ const Row: React.FC<RowProps> = ({rowIndex, colCount, rowResize}) => {
         />
       </div>
       {
-        new Array(colCount)
-            .fill(null)
-            .map((_, colIndex) => (
-              <Cell
-                key={colIndex}
-                rowIndex={rowIndex}
-                colIndex={colIndex}
-              />
-            ))
+        cells
       }
     </div>
   )

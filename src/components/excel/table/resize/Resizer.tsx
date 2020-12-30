@@ -1,6 +1,7 @@
 import React, { memo, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import { StyleObject } from '../../../../core/types'
+import { iterateObject } from '../../../../core/utils'
 import { mouseDownHandlerResize } from './resize.handler'
 
 interface ResizerProps {
@@ -14,9 +15,7 @@ const Resizer: React.FC<ResizerProps> = ({type, index}) => {
   const resizerRef = useRef(null)
 
   const setStyles = (styles: StyleObject) => {
-    for (let key in styles) {
-      resizerRef.current.style[key] = styles[key]
-    }
+    iterateObject((key, value) => resizerRef.current.style[key] = value, styles)
   }
 
   const dispatch = useDispatch()

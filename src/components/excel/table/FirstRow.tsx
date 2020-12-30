@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import { ObjectNumberType } from '../../../core/types'
-import { getColumnName } from '../../../core/utils'
+import { generateArray, getColumnName } from '../../../core/utils'
 import Resizer from './resize/Resizer'
 
 interface FirstRowProps {
@@ -16,21 +16,19 @@ const FirstRow: React.FC<FirstRowProps> = ({colCount, columnResize}) => {
       <div
         className="info" />
       {
-        new Array(colCount)
-            .fill(null)
-            .map((_, colIndex) => (
-              <div
-                className="column"
-                key={colIndex}
-                style={{width: columnResize[colIndex] + 'px'}}
-              >
-                {getColumnName(colIndex)}
-                <Resizer
-                  type={'column'}
-                  index={colIndex}
-                />
-              </div>
-            ))
+        generateArray(colIndex => (
+          <div
+            className="column"
+            key={colIndex}
+            style={{width: columnResize[colIndex] + 'px'}}
+          >
+            {getColumnName(colIndex)}
+            <Resizer
+              type={'column'}
+              index={colIndex}
+            />
+          </div>
+        ), colCount)
       }
     </div>
   )
