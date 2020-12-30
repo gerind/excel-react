@@ -64,7 +64,7 @@ export const Table: React.FC<TableProps> = ({rowCount, colCount}) => {
       key={rowIndex}
       rowResize={rowResize[rowIndex]}
     />
-  ), rowCount), [colCount, rowCount])
+  ), rowCount), [colCount, rowCount, rowResize])
 
   return (
     <TableContext.Provider
